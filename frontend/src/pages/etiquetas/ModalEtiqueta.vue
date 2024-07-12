@@ -9,22 +9,21 @@
       style="width: 500px"
       class="q-pa-lg"
     >
-      <div class="text-h6">{{ etiquetaEdicao.id ? 'Editar': 'Criar' }} Etiqueta</div>
+      <q-card-section>
+        <div class="text-h6">{{ etiquetaEdicao.id ? 'Editar': 'Criar' }} Etiqueta</div>
+      </q-card-section>
       <q-card-section>
         <q-input
           class="row col"
-          rounded
-          dense
+          square
           outlined
           v-model="etiqueta.tag"
           label="Nome da Etiqueta"
         />
         <q-input
-          rounded
-          outlined
-          dense
+          filled
           hide-bottom-space
-          :style="`background: ${etiqueta.color}; border-radius: 20px `"
+          :style="`background: ${etiqueta.color} `"
           v-model="etiqueta.color"
           :rules="['anyColor']"
           class="q-my-md"
@@ -63,16 +62,16 @@
         class="q-mt-md"
       >
         <q-btn
-          rounded
+          flat
           label="Cancelar"
           color="negative"
           v-close-popup
           class="q-mr-md"
         />
         <q-btn
-          rounded
+          flat
           label="Salvar"
-          color="positive"
+          color="primary"
           @click="handleEtiqueta"
         />
       </q-card-actions>

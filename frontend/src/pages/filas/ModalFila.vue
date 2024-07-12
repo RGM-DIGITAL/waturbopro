@@ -1,50 +1,57 @@
 <template>
-  <q-dialog
-    persistent
-    :value="modalFila"
-    @hide="fecharModal"
-    @show="abrirModal"
-  >
-    <q-card
-      style="width: 500px"
-      class="q-pa-lg"
-    >
-      <div class="text-h6">{{ filaEdicao.id ? 'Editar': 'Criar' }} Fila</div>
+  <q-dialog persistent :value="modalFila" @hide="fecharModal" @show="abrirModal">
+    <q-card style="width: 500px" class="q-pa-lg">
       <q-card-section>
+        <div class="text-h6">{{ filaEdicao.id ? 'Editar' : 'Criar' }} Fila</div>
+      </q-card-section>
+      <q-card-section>
+            <q-input class="row col" square outlined v-model="fila.queue" label="Nome da Fila" />
         <q-input
-          class="row col"
-          rounded
-          outlined
-          dense
-          v-model="fila.queue"
-          label="Nome da Fila"
-        />
+          filled
+          hide-bottom-space
+          :style="`background: ${fila.color} `"
+          v-model="fila.color"
+          :rules="['anyColor']"
+          class="q-my-md"
+          :dark="false"
+        >
+          <template v-slot:preappend>
+          </template>
+          <template v-slot:append>
+            <q-icon
+              name="colorize"
+              class="cursor-pointer"
+            >
+              <q-popup-proxy
+                transition-show="scale"
+                transition-hide="scale"
+              >
+                <q-color
+                  format-model="hex"
+                  square
+                  default-view="palette"
+                  no-header
+                  bordered
+                  v-model="fila.color"
+                />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
         <q-checkbox
           v-model="fila.isActive"
           label="Ativo"
         />
+          <!-- <div class="col-6">
+            <q-toggle v-model="fila.from_ia" label="Chat pela IA" />
+          </div> -->
       </q-card-section>
-      <q-card-actions
-        align="right"
-        class="q-mt-md"
-      >
-        <q-btn
-          rounded
-          label="Cancelar"
-          color="negative"
-          v-close-popup
-          class="q-mr-md"
-        />
-        <q-btn
-          rounded
-          label="Salvar"
-          color="positive"
-          @click="handleFila"
-        />
+      <q-card-actions align="right" class="q-mt-md">
+        <q-btn flat label="Cancelar" color="negative" v-close-popup class="q-mr-md" />
+        <q-btn flat label="Salvar" color="primary" @click="handleFila" />
       </q-card-actions>
     </q-card>
   </q-dialog>
-
 </template>
 
 <script>
@@ -63,36 +70,40 @@ export default {
       }
     }
   },
-  data () {
+  data() {
     return {
       fila: {
         id: null,
         queue: null,
+        from_ia: false,
+        color: '#ffffff',
         isActive: true
       }
     }
   },
   methods: {
-    resetarFila () {
+    resetarFila() {
       this.fila = {
         id: null,
         queue: null,
+        from_ia: false,
+        color: '#ffffff',
         isActive: true
       }
     },
-    fecharModal () {
+    fecharModal() {
       this.resetarFila()
       this.$emit('update:filaEdicao', { id: null })
       this.$emit('update:modalFila', false)
     },
-    abrirModal () {
+    abrirModal() {
       if (this.filaEdicao.id) {
         this.fila = { ...this.filaEdicao }
       } else {
         this.resetarFila()
       }
     },
-    async handleFila () {
+    async handleFila() {
       try {
         this.loading = true
         if (this.fila.id) {
@@ -137,5 +148,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

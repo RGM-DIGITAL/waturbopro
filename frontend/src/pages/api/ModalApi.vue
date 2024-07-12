@@ -1,36 +1,27 @@
 <template>
-  <q-dialog
-    persistent
+  <q-dialog persistent
     :value="modalApi"
     @hide="fecharModal"
-    @show="abrirModal"
-  >
-    <q-card
-      style="min-width: 80vw; width: 80vw"
-      class="q-pa-lg"
-    >
+    @show="abrirModal">
+    <q-card style="min-width: 80vw; width: 80vw"
+      class="q-pa-lg">
       <q-card-section>
         <div class="text-h6">{{  apiEdicao.id ? 'Editar' : 'Criar'  }} Configuração API</div>
       </q-card-section>
       <q-card-section>
-        <fieldset class="q-pa-md full-width rounded-all">
+        <fieldset class="q-pa-md full-width">
           <legend class="q-px-sm">Dados API</legend>
           <div class="row q-col-gutter-md">
             <div class="col-xs-12 col-sm-6">
-              <q-input
-                rounded
-                dense
+              <q-input square
                 outlined
                 v-model="api.name"
                 label="Nome da API"
                 @blur="$v.api.name.$touch"
-                :error="$v.api.name.$error"
-              />
+                :error="$v.api.name.$error" />
             </div>
             <div class="col-xs-12 col-sm-6">
-              <q-select
-                rounded
-                dense
+              <q-select square
                 outlined
                 emit-value
                 map-options
@@ -44,75 +35,57 @@
                 @blur="$v.api.sessionId.$touch"
                 :error="$v.api.sessionId.$error"
                 input-style="width: 280px; max-width: 280px;"
-                error-message="Obrigatório"
-              />
+                error-message="Obrigatório" />
             </div>
 
           </div>
         </fieldset>
-        <fieldset class="q-pa-md full-width q-mt-lg rounded-all">
+        <fieldset class="q-pa-md full-width q-mt-lg">
           <legend class="q-px-sm">WebHook</legend>
           <div class="row q-col-gutter-md">
             <div class="col-12 q-mt-md">
-              <q-input
-                rounded
-                dense
+              <q-input square
                 outlined
                 v-model="api.urlServiceStatus"
                 @blur="$v.api.urlServiceStatus.$touch"
                 :error="$v.api.urlServiceStatus.$error"
                 label="URL WebHook Status Sessão"
-                hint="Dispara a ação sempre que o status da sessão conectada ao whatsapp é alterado."
-              />
+                hint="Dispara a ação sempre que o status da sessão conectada ao whatsapp é alterado." />
             </div>
             <div class="col-12 q-mt-md">
-              <q-input
-                rounded
-                dense
+              <q-input square
                 outlined
                 v-model="api.urlMessageStatus"
                 @blur="$v.api.urlMessageStatus.$touch"
                 :error="$v.api.urlMessageStatus.$error"
                 label="URL WebHook Status Mensagem"
-                hint="Dispara ação sempre que o status de uma mensagem é atualizado."
-              />
+                hint="Dispara ação sempre que o status de uma mensagem é atualizado." />
             </div>
             <div class="col-12 q-mt-md">
-              <q-input
-                rounded
-                dense
+              <q-input square
                 outlined
                 v-model="api.authToken"
                 label="Token de autenticação"
-                hint="Será enviado como authorization no header. Se existir prefixo, deverá ser informado aqui. Ex.: Bearer, Token"
-              />
+                hint="Será enviado como authorization no header. Se existir prefixo, deverá ser informado aqui. Ex.: Bearer, Token" />
             </div>
           </div>
         </fieldset>
 
-        <q-checkbox
-          v-if="api.id"
+        <q-checkbox v-if="api.id"
           v-model="api.isActive"
-          label="Ativo"
-        />
+          label="Ativo" />
       </q-card-section>
-      <q-card-actions
-        align="right"
-        class="q-mt-md"
-      >
-        <q-btn
-          rounded
+      <q-card-actions align="right"
+        class="q-mt-md">
+        <q-btn flat
           label="Cancelar"
           color="negative"
           v-close-popup
-          class="q-mr-md"
-        />
-        <q-btn
-          rounded
+          class="q-mr-md" />
+        <q-btn flat
           label="Salvar"
-          color="positive"
-          @click="handleAPI"
-        />
+          color="primary"
+          @click="handleAPI" />
       </q-card-actions>
     </q-card>
   </q-dialog>

@@ -21,7 +21,6 @@
               class="q-ml-md"
               color="primary"
               label="Adicionar"
-              rounded
               @click="chatFlowSelecionado = {}; modalChatFlow = true"
             />
           </template>
@@ -98,32 +97,20 @@
       @chatFlow:criada="novoFluxoCriado"
       @chatFlow:editado="fluxoEditado"
     />
-    <q-dialog
-      v-model="confirmDelete"
-      persistent
-    >
+    <q-dialog v-model="confirmDelete" persistent>
       <q-card style="min-width: 350px">
         <q-card-section>
           <div class="text-h6">Você tem certeza que dessa escluir esse fluxo?</div>
           <div>{{ chatFlowSelecionado.name }}</div>
         </q-card-section>
-        <q-card-actions
-          align="right"
-          class="text-primary"
-        >
+        <q-card-actions align="right" class="text-primary">
           <q-btn
             flat
             label="Cancelar"
             v-close-popup
             class="q-mr-md"
           />
-          <q-btn
-            flat
-            label="Excluir"
-            color="negative"
-            v-close-popup
-            @click="confirmDeleteFoo()"
-          />
+          <q-btn flat label="Excluir" color="negative" v-close-popup @click="confirmDeleteFoo()" />
         </q-card-actions>
       </q-card>
     </q-dialog>

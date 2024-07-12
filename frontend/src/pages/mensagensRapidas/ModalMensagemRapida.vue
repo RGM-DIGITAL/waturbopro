@@ -9,15 +9,16 @@
       :style="$q.screen.width < 500 ? 'width: 95vw' : 'min-width: 700px; max-width: 700px'"
       class="q-pa-lg"
     >
-      <div class="text-h6">{{ mensagemRapida.id ? 'Editar': 'Criar' }} Mensagem Rápida {{ mensagemRapida.id  ? `(ID: ${mensagemRapida.id})` : '' }}</div>
+      <q-card-section>
+        <div class="text-h6">{{ mensagemRapida.id ? 'Editar': 'Criar' }} Mensagem Rápida {{ mensagemRapida.id  ? `(ID: ${mensagemRapida.id})` : '' }}</div>
+      </q-card-section>
       <q-card-section class="q-pa-none">
         <div class="row q-my-md">
           <div class="col">
             <q-input
               style="width: 200px; margin-left: 62px"
+              square
               outlined
-              rounded
-              dense
               v-model="mensagemRapida.key"
               label="Chave"
             />
@@ -61,7 +62,7 @@
             <textarea
               ref="inputEnvioMensagem"
               style="min-height: 15vh; max-height: 15vh;"
-              class="q-pa-sm bg-white full-width rounded-all"
+              class="q-pa-sm bg-white full-width"
               placeholder="Digite a mensagem"
               autogrow
               dense
@@ -77,16 +78,16 @@
         class="q-mt-md"
       >
         <q-btn
-          rounded
+          flat
           label="Cancelar"
           color="negative"
           v-close-popup
           class="q-mr-md"
         />
         <q-btn
-          rounded
+          flat
           label="Salvar"
-          color="positive"
+          color="primary"
           @click="handleMensagemRapida"
         />
       </q-card-actions>

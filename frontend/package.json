@@ -1,26 +1,26 @@
 {
-  "name": "izing",
-  "version": "2.3.0",
+  "name": "Whazing",
+  "version": "1.0.0",
   "description": "Bot Multiatendimento, multicanais e multiempresas.",
-  "productName": "IZING",
+  "productName": "Izing",
   "author": "Durans <lumardyelson@gmail.com>",
   "private": false,
-  "license": "AGPL-3.0-or-later",
-  "github": "https://github.com/cleitonme/izing.open.io",
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/cli": "^2.4.0",
-    "@quasar/extras": "^1.16.3",
-    "apexcharts": "^3.40.0",
-    "axios": "^1.4.0",
-    "core-js": "^3.30.2",
+    "@quasar/cli": "^2.4.1",
+    "@quasar/extras": "^1.16.11",
+    "@quasar/quasar-ui-qcalendar": "^4.0.0-beta.16",
+    "apexcharts": "^3.49.1",
+    "axios": "^1.7.2",
+    "chart.js": "^4.4.3",
+    "core-js": "^3.37.1",
     "date-fns": "^2.30.0",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.4.5",
     "drawflow": "0.0.59",
-    "js-base64": "^3.7.5",
+    "js-base64": "^3.7.7",
     "lodash": "^4.17.21",
     "mic-recorder-to-mp3": "^2.2.2",
     "printd": "^1.6.0",
@@ -32,11 +32,11 @@
     "vue": "^2.7.14",
     "vue-apexcharts": "^1.6.2",
     "vue-codemirror": "^4.0.6",
-    "vue-easy-lightbox": "^0.14.0",
+    "vue-easy-lightbox": "^0.23.0",
     "vue-facebook-login-component": "^4.0.2",
     "vue-infinite-loading": "^2.4.5",
     "vue-linkify": "^1.0.1",
-    "vue-loader": "^15.10.1",
+    "vue-loader": "^15.11.1",
     "vuedraggable": "^2.24.3",
     "vuelidate": "^0.7.7",
     "vuelidate-error-extractor": "^2.4.1",
@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
-    "@quasar/app": "^2.4.3",
+    "@quasar/app": "^2.4.4",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
@@ -58,6 +58,9 @@
     "workbox-webpack-plugin": "^6.6.0"
   },
   "scripts": {
+    "fix": "eslint --ext .js,.vue ./ --fix",
+    "lint": "eslint --ext .js,.vue ./",
+    "test": "echo \"No test specified\" && exit 0",
     "start": "pm2 start server.js --name izing-frontend",
     "stop": "pm2 stop server.js --name izing-frontend",
     "build": "export NODE_OPTIONS=--openssl-legacy-provider && npx quasar build -P -m pwa"
@@ -74,8 +77,8 @@
     "last 5 Opera versions"
   ],
   "engines": {
-    "node": ">= 18.20.3",
-    "npm": ">= 6.13.4",
+    "node": ">= 20.13.1",
+    "npm": ">= 10.5.2",
     "yarn": ">= 1.21.1"
   }
 }

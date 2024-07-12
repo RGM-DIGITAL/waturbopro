@@ -1,83 +1,61 @@
 <template>
   <div>
-    <q-card
-      flat
-      class="q-pa-sm q-pb-md"
-    >
+    <q-card flat
+      class="q-pa-sm q-pb-md">
       <q-card-section class="q-pa-none">
         <div class="flex flex-inline full-width items-center">
-          <div
-            class="flex flex-inline text-left"
-            style="width: 40px"
-          >
-            <q-btn
-              round
+          <div class="flex flex-inline text-left"
+            style="width: 40px">
+            <q-btn round
               flat
-              dense
-            >
-              <q-icon
-                size="2em"
-                name="mdi-emoticon-happy-outline"
-              />
+              dense>
+              <q-icon size="2em"
+                name="mdi-emoticon-happy-outline" />
               <q-tooltip>
                 Emoji
               </q-tooltip>
-              <q-menu
-                anchor="top right"
+              <q-menu anchor="top right"
                 self="bottom middle"
-                :offset="[5, 40]"
-              >
-                <VEmojiPicker
-                  style="width: 40vw"
+                :offset="[5, 40]">
+                <VEmojiPicker style="width: 40vw"
                   :showSearch="false"
                   :emojisByRow="20"
                   labelSearch="Localizar..."
                   lang="pt-BR"
-                  @select="onInsertSelectEmoji"
-                />
+                  @select="onInsertSelectEmoji" />
               </q-menu>
             </q-btn>
-            <q-btn
-              round
+            <q-btn round
               flat
-              dense
-            >
-              <q-icon
-                size="2em"
-                name="mdi-variable"
-              />
+              dense>
+              <q-icon size="2em"
+                name="mdi-variable" />
               <q-tooltip>
                 Variáveis
               </q-tooltip>
               <q-menu touch-position>
-                <q-list
-                  dense
-                  style="min-width: 100px"
-                >
-                  <q-item
-                    v-for="variavel in variaveis"
+                <q-list dense
+                  style="min-width: 100px">
+                  <q-item v-for="variavel in variaveis"
                     :key="variavel.label"
                     clickable
                     @click="onInsertSelectVariable(variavel.value)"
-                    v-close-popup
-                  >
+                    v-close-popup>
                     <q-item-section>{{ variavel.label }}</q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
             </q-btn>
           </div>
-          <textarea
-            ref="inputEnvioMensagem"
+          <textarea ref="inputEnvioMensagem"
             style="min-height: 10vh; max-height: 30vh; flex: auto"
-            class="q-pa-sm bg-white rounded-all"
+            class="q-pa-sm bg-white"
             placeholder="Digite a mensagem"
             autogrow
             dense
             outlined
             @input="(v) => $attrs.element.data.message = v.target.value"
-            :value="$attrs.element.data.message"
-          >
+            :value="$attrs.element.data.message">
           </textarea>
         </div>
       </q-card-section>
@@ -149,4 +127,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 </style>

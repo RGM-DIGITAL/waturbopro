@@ -2,7 +2,7 @@ const usuario = JSON.parse(localStorage.getItem('usuario'))
 import Router from 'src/router/index'
 import { socketIO } from '../utils/socket'
 import { ConsultarTickets } from 'src/service/tickets'
-
+import { ListarUsuariosChatInterno } from 'src/service/user'
 const socket = socketIO()
 
 const userId = +localStorage.getItem('userId')
@@ -25,6 +25,25 @@ export default {
   methods: {
     socketInitial () {
       socket.emit(`${usuario.tenantId}:joinNotification`)
+
+      // socket.on(`${ usuario.tenantId }:ticket`, data => {
+      //   if (!verifySocketTicketAction(data.ticket, data.action)) return
+      //   if (data.action === 'updateUnread' || data.action === 'delete') {
+
+      //   }
+      // })
+
+      // socket.on(`${ usuario.tenantId }:appMessage`, data => {
+      //   if (
+      //     data.action === 'create' &&
+      //     !data.message.read &&
+      //     (data.ticket.userId === userId || !data.ticket.userId)
+      //   ) {
+      //     if (isQueueOrUserNotify(data.ticket)) {
+      //       this.handlerNotifications(data)
+      //     }
+      //   }
+      // })
 
       socket.io.on(`${usuario.tenantId}:whatsapp`, data => {
         if (data.action === 'update') {
@@ -127,16 +146,20 @@ export default {
       socket.on(`${usuario.tenantId}:ticketList`, async data => {
         var verify = []
         if (data.type === 'notification:new') {
+          // console.log(data)
+          // Atualiza notificações de mensagem
+          // var data_noti = []
           const params = {
             searchParam: '',
             pageNumber: 1,
-            status: ['pending'],
+            status: ['open', 'pending', 'closed'],
             showAll: false,
             count: null,
             queuesIds: [],
             withUnreadMessages: false,
             isNotAssignedUser: false,
             includeNotQueueDefined: true
+            // date: new Date(),
           }
           try {
             const data_noti = await ConsultarTickets(params)
@@ -159,12 +182,84 @@ export default {
           }
         }
       })
+
+      /*
+      socket.on(`${usuario.tenantId}:ticketList`, data => {
+        if (data.type === 'chat:create') {
+          if (
+            !data.payload.read &&
+            (data.payload.ticket.userId === userId || !data.payload.ticket.userId) &&
+            data.payload.ticket.id !== this.$store.getters.ticketFocado.id
+          ) {
+            if (checkTicketFilter(data.payload.ticket)) {
+              this.handlerNotifications(data.payload)
+            }
+          }
+          this.$store.commit('UPDATE_MESSAGES', data.payload)
+          this.scrollToBottom()
+        }
+        if (data.type === 'chat:ack' || data.type === 'chat:delete') {
+          this.$store.commit('UPDATE_MESSAGE_STATUS', data.payload)
+        }
+        if (data.type === 'ticket:update') {
+          console.log('Atualização de Ticket')
+          console.log(data)
+        }
+      })
+      socket.on(`${usuario.tenantId}:contactList`, data => {
+        this.$store.commit('UPDATE_CONTACT', data.payload)
+      })
+      */
+      socket.on(`${usuario.tenantId}:ticketList`, async data => {
+        if (data.type === 'chat:ack' || data.type === 'chat:delete') {
+          console.log('socket ON: CHAT:ACK')
+          this.$store.commit('UPDATE_MESSAGE_STATUS', data.payload)
+        }
+
+        if (data.type === 'chat:update') {
+          this.$store.commit('UPDATE_MESSAGE', data.payload)
+        }
+      })
+
+      socket.on(`${usuario.tenantId}:mensagem-chat-interno`, data => {
+        if (data.action === 'update' && (data.data.receiverId == usuario.userId || data.data.groupId != null)) {
+          this.$store.commit('MENSAGEM_INTERNA_UPDATE', data)
+        }
+      })
+
+      socket.on(`${usuario.tenantId}:unread-mensagem-chat-interno`, data => {
+        if (data.action === 'update' && data.data.senderId == usuario.userId) {
+          this.$store.commit('UNREAD_MENSAGEM_INTERNA_UPDATE', data)
+        }
+      })
+
+      socket.on(`${usuario.tenantId}:mensagem-chat-interno-notificacao`, data => {
+        if (data.action === 'update' && (data.data.receiverId == usuario.userId || data.data.groupId != null)) {
+          this.$store.commit('NOTIFICACAO_CHAT_INTERNO_UPDATE', data)
+        }
+      })
+
+      socket.on('verifyOnlineUsers', data => {
+        this.$store.commit('LISTA_USUARIOS_CHAT_INTERNO', { action: 'updateAllUsers', data: {} })
+        this.socket.emit(`${usuario.tenantId}:userVerified`, usuario)
+      })
+
+      socket.on(`${usuario.tenantId}:user-online`, data => {
+        if (data.action === 'update' && data.data.userId !== usuario.userId) {
+          this.$store.commit('USER_CHAT_UPDATE', data)
+        }
+      })
+
+      socket.on(`${usuario.tenantId}:updateStatusUser`, async () => {
+        const { data } = await ListarUsuariosChatInterno()
+        this.$store.commit('LISTA_USUARIOS_CHAT_INTERNO', { action: 'create', data: data.users })
+      })
     }
   },
   mounted () {
     this.socketInitial()
   },
   destroyed () {
-    socket && socket.disconnect()
+    socket.disconnect()
   }
 }

@@ -19,28 +19,33 @@
       <q-card-section>
         <q-input
           class="row col"
+          square
           outlined
-          rounded
-          dense
           v-model="chatFlow.name"
           label="Descrição"
         />
-        <div class="row col q-mt-md">
-          <q-input
-            clearable
-            class="full-width"
-            rounded
-            dense
-            outlined
-            v-model="chatFlow.celularTeste"
-            label="Número para Teste"
-            hint="Deixe limpo para que a Auto resposta funcione. Caso contrário, irá funcionar somente para o número informado aqui."
+        <!-- <div class="row col q-mt-md">
+          <q-option-group
+            v-model="chatFlow.action"
+            :options="options"
+            color="primary"
           />
-        </div>
+        </div> -->
         <div class="row col q-mt-md">
           <q-checkbox
             v-model="chatFlow.isActive"
             label="Ativo"
+          />
+        </div>
+        <div class="row col q-mt-md">
+          <q-input
+            clearable
+            class="full-width"
+            square
+            outlined
+            v-model="chatFlow.celularTeste"
+            label="Número para Teste"
+            hint="Deixe limpo para que a Auto resposta funcione. Caso contrário, irá funcionar somente para o número informado aqui."
           />
         </div>
       </q-card-section>
@@ -49,16 +54,16 @@
         class="q-mt-md"
       >
         <q-btn
-          rounded
+          flat
           label="Cancelar"
           color="negative"
           v-close-popup
           class="q-mr-md"
         />
         <q-btn
-          rounded
+          flat
           label="Salvar"
-          color="positive"
+          color="primary"
           @click="handleAutoresposta"
         />
       </q-card-actions>

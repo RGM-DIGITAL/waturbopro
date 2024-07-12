@@ -11,7 +11,7 @@
       </q-card-section>
       <q-card-section class="q-col-gutter-sm">
         <div class="row q-col-gutter-sm">
-          <div class="col-12">
+          <div class="col-5">
             <c-input
               outlined
               v-model.trim="usuario.name"
@@ -20,7 +20,7 @@
               label="Nome"
             />
           </div>
-          <div class="col-12">
+          <div class="col-7">
             <c-input
               outlined
               :validator="$v.usuario.email"
@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="row q-col-gutter-sm">
-          <div class="col-12">
+          <div class="col-5">
             <c-input
               outlined
               v-model="usuario.password"
@@ -49,12 +49,10 @@
               </template>
             </c-input>
           </div>
-          <div class="col-12">
+          <div class="col-7">
             <q-select
               :disable="isProfile"
               outlined
-              rounded
-              dense
               v-model="usuario.profile"
               :options="optionsProfile"
               option-value="value"
@@ -68,14 +66,12 @@
       </q-card-section>
       <q-card-actions align="right">
         <q-btn
-          rounded
           label="Sair"
           class="q-px-md q-mr-sm"
           color="negative"
           v-close-popup
         />
         <q-btn
-          rounded
           label="Salvar"
           class="q-px-md"
           color="primary"
@@ -228,7 +224,7 @@ export default {
         if (error.data.error === 'ERR_USER_LIMIT_USER_CREATION') {
           Notify.create({
             type: 'negative',
-            message: 'Limite de usuario atingido.',
+            message: 'Limite de usuario atingido. para ter mais usuários entre em contato com a equipe de suporte',
             caption: 'ERR_USER_LIMIT_USER_CREATION',
             position: 'top',
             progress: true

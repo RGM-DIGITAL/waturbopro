@@ -1,24 +1,22 @@
 <template>
+  <div class="q-pa-md bg-video">
+    <video autoplay muted loop>
+      <source src="/videologin.mp4" type="video/mp4" />
+    </video>
   <q-layout class="vertical-center">
     <q-page-container>
       <q-page class="flex justify-center items-center">
-        <q-ajax-bar
-          position="top"
+        <q-ajax-bar position="top"
           color="primary"
-          size="5px"
-        />
-        <q-card
-          bordered
+          size="5px" />
+        <q-card bordered
           class="card q-pa-md shadow-10"
-          style="border-top: 5px solid #3E72AF; background-color: rgba(255,255,255,0.75); border-radius: 20px"
-        >
+          style="border-top: 5px solid #3E72AF; background-color: rgba(255,255,255,0.75); border-radius: 20px">
           <q-card-section class="text-primary text-center">
-            <q-img
-              src="/logo_izing.png"
+            <q-img src="/logo.png"
               spinner-color="white"
-              style="height: 120px; max-width: 300px"
-              class="q-mb-lg q-px-md"
-            />
+              style="height: 110px; max-width: 290px"
+              class="q-mb-lg q-px-md" />
             <q-separator spaced />
           </q-card-section>
           <q-card-section class="text-primary">
@@ -27,75 +25,60 @@
           </q-card-section>
 
           <q-card-section>
-            <q-input
-              class="q-mb-md"
+            <q-input class="q-mb-md"
               clearable
-              rounded
               v-model="form.email"
               placeholder="meu@email.com"
               @blur="$v.form.email.$touch"
               :error="$v.form.email.$error"
               error-message="Deve ser um e-mail válido."
               outlined
-              @keypress.enter="fazerLogin"
-            >
+              @keypress.enter="fazerLogin">
               <template v-slot:prepend>
-                <q-icon
-                  name="mdi-email-outline"
+                <q-icon name="mdi-email-outline"
                   class="cursor-pointer"
-                  color='primary'
-                />
+                  color='primary' />
               </template>
             </q-input>
 
-            <q-input
-              outlined
-              rounded
+            <q-input outlined
               v-model="form.password"
               :type="isPwd ? 'password' : 'text'"
-              @keypress.enter="fazerLogin"
-            >
+              @keypress.enter="fazerLogin">
               <template v-slot:prepend>
-                <q-icon
-                  name="mdi-shield-key-outline"
+                <q-icon name="mdi-shield-key-outline"
                   class="cursor-pointer"
-                  color='primary'
-                />
+                  color='primary' />
               </template>
               <template v-slot:append>
-                <q-icon
-                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                <q-icon :name="isPwd ? 'visibility_off' : 'visibility'"
                   class="cursor-pointer"
-                  @click="isPwd = !isPwd"
-                />
+                  @click="isPwd = !isPwd" />
               </template>
             </q-input>
           </q-card-section>
           <q-card-actions>
             <q-space />
-            <q-btn
-              class="q-mr-sm q-my-lg"
+            <q-btn class="q-mr-sm q-my-lg"
               style="width: 150px"
               color="primary"
-              rounded
               :loading="loading"
-              @click="fazerLogin"
-            >
+              @click="fazerLogin">
               Login
               <span slot="loading">
                 <q-spinner-puff class="on-left" />Logando...
               </span>
             </q-btn>
           </q-card-actions>
-          <!-- <q-btn
+           <q-btn
             flat
             color="info"
             no-caps
             dense
             class="q-px-sm"
-            label="Esqueci a senha"
-            @click="modalEsqueciSenha=true"
-          /> -->
+            label="Registre-se, agora mesmo!"
+            @click="redirecionarParaCadastro"
+          />
 
           <q-inner-loading :showing="loading" />
         </q-card>
@@ -103,6 +86,7 @@
 
     </q-page-container>
   </q-layout>
+</div>
 </template>
 
 <script>
@@ -131,6 +115,9 @@ export default {
     emailRedefinicao: { required, email }
   },
   methods: {
+    redirecionarParaCadastro() {
+      this.$router.push('/signup')
+    },
     fazerLogin () {
       this.$v.form.$touch()
       if (this.$v.form.$error) {

@@ -1,10 +1,10 @@
 import { io } from 'socket.io-client'
 
 export const socketIO = () => {
-  return io(process.env.VUE_URL_API, {
+  return io(process.env.URL_API, {
     reconnection: true,
     autoConnect: true,
-    transports: ['websocket'],
+    transports: ['websocket', 'polling'],
     auth: (cb) => {
       const tokenItem = localStorage.getItem('token')
       const token = tokenItem ? JSON.parse(tokenItem) : null
@@ -24,9 +24,9 @@ socket.io.on('error', (error) => {
 socket.on('disconnect', (reason) => {
   console.info('socket disconnect', reason)
 
-  // if (reason === "io server disconnect") {
-  //   // the disconnection was initiated by the server, you need to reconnect manually
-  //   socket.connect();
-  // }
+  if (reason === 'io server disconnect') {
+    // the disconnection was initiated by the server, you need to reconnect manually
+    socket.connect()
+  }
   // else the socket will automatically try to reconnect
 })

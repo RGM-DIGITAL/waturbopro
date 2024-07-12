@@ -19,7 +19,7 @@
       </q-card-section>
       <q-card-section class="q-pa-sm q-pl-md row q-col-gutter-md">
         <c-input
-          class="col-12"
+          class="col-6"
           outlined
           v-model="contato.name"
           :validator="$v.contato.name"
@@ -27,28 +27,96 @@
           label="Nome"
         />
         <c-input
-          class="col-12"
+          class="col-6"
           outlined
           v-model="contato.number"
           :validator="$v.contato.number"
           @blur="$v.contato.number.$touch"
           mask="+#############"
-          placeholder="+DDI DDD 99999 9999"
+          placeholder="+DDI (DDD) 99999 9999"
           fill-mask
           unmasked-value
-          hint="Informe número com DDI e DDD"
+          hint="Número do celular deverá conter 9 dígitos e ser precedido do DDI E DDD. "
           label="Número"
         />
         <c-input
           class="col-12"
           outlined
-          dense
-          rounded
           :validator="$v.contato.email"
           @blur="$v.contato.email.$touch"
           v-model="contato.email"
           label="E-mail"
         />
+      </q-card-section>
+      <q-card-section>
+        <q-card
+          class="bg-white q-mt-sm btn-rounded"
+          style="width: 100%"
+          bordered
+          flat
+        >
+          <q-card-section class="text-bold q-pb-none">
+            Carteira
+            <q-separator />
+          </q-card-section>
+          <q-card-section class="q-pa-none">
+            <q-select
+              square
+              borderless
+              v-model="contato.wallets"
+              multiple
+              :max-values="1"
+              :options="usuarios"
+              use-chips
+              option-value="id"
+              option-label="name"
+              emit-value
+              map-options
+              dropdown-icon="add"
+            >
+              <template v-slot:option="{ itemProps, itemEvents, opt, selected, toggleOption }">
+                <q-item
+                  v-bind="itemProps"
+                  v-on="itemEvents"
+                >
+                  <q-item-section>
+                    <q-item-label v-html="opt.name"></q-item-label>
+                  </q-item-section>
+                  <q-item-section side>
+                    <q-checkbox
+                      :value="selected"
+                      @input="toggleOption(opt)"
+                    />
+                  </q-item-section>
+                </q-item>
+              </template>
+              <template v-slot:selected-item="{ opt }">
+                <q-chip
+                  dense
+                  square
+                  color="white"
+                  text-color="primary"
+                  class="q-ma-xs row col-12 text-body1"
+                >
+                  {{ opt.name }}
+                </q-chip>
+              </template>
+              <template v-slot:no-option="{ itemProps, itemEvents }">
+                <q-item
+                  v-bind="itemProps"
+                  v-on="itemEvents"
+                >
+                  <q-item-section>
+                    <q-item-label class="text-negative text-bold">
+                      Ops... Sem carteiras disponíveis!!
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+              </template>
+
+            </q-select>
+          </q-card-section>
+        </q-card>
       </q-card-section>
       <q-card-section class="q-pa-sm q-pl-md text-bold">
         Informações adicionais
@@ -62,16 +130,12 @@
             <q-input
               class="col-6"
               outlined
-              dense
-              rounded
               v-model="extraInfo.name"
               label="Descrição"
             />
             <q-input
               class="col-5"
               outlined
-              dense
-              rounded
               label="Informação"
               v-model="extraInfo.value"
             />
@@ -92,7 +156,6 @@
             class="full-width"
             color="primary"
             outline
-            rounded
             label="Adicionar Informação"
             @click="contato.extraInfo.push({name: null, value: null})"
           />
@@ -103,7 +166,7 @@
         class="q-mt-lg"
       >
         <q-btn
-          rounded
+          flat
           label="Sair"
           color="negative"
           v-close-popup
@@ -111,9 +174,9 @@
         />
         <q-btn
           class="q-ml-lg q-px-md"
-          rounded
+          flat
           label="Salvar"
-          color="positive"
+          color="primary"
           @click="saveContact"
         />
       </q-card-actions>

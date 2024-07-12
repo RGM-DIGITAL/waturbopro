@@ -18,9 +18,9 @@
       <q-card-section class="q-pb-none">
         <div class="row q-gutter-sm">
           <q-input
+            class="required"
             outlined
             dense
-            rounded
             style="width: 500px"
             v-model="campanha.name"
             label="Nome da Campanha"
@@ -31,7 +31,6 @@
           <q-datetime-picker
             style="width: 200px"
             dense
-            rounded
             hide-bottom-space
             outlined
             stack-label
@@ -46,7 +45,7 @@
             error-message="Não pode ser inferior ao dia atual"
           />
           <q-select
-            rounded
+            class="required"
             dense
             outlined
             emit-value
@@ -65,7 +64,7 @@
             style="width: 250px"
           />
           <q-input
-            rounded
+            class="required"
             outlined
             dense
             style="width: 160px"
@@ -77,7 +76,6 @@
           />
           <q-file
             dense
-            rounded
             v-if="!campanha.mediaUrl"
             :loading="loading"
             label="Mídia composição mensagem"
@@ -101,7 +99,6 @@
           <q-input
             v-if="campanha.mediaUrl"
             readonly
-            rounded
             label="Mídia composição mensagem"
             :value="cArquivoName"
             class=" col-grow "
@@ -162,7 +159,7 @@
               <textarea
                 ref="message1"
                 style="min-height: 12.5vh; max-height: 12.5vh;"
-                class="q-pa-sm bg-white full-width rounded-all"
+                class="q-pa-sm bg-white full-width rounded-borders"
                 :class="{
                   'bg-red-1': $v.campanha.message1.$error
                 }"
@@ -233,7 +230,7 @@
               <textarea
                 ref="message2"
                 style="min-height: 12.5vh; max-height: 12.5vh;"
-                class="q-pa-sm bg-white full-width rounded-all"
+                class="q-pa-sm bg-white full-width rounded-borders"
                 placeholder="Digite a mensagem"
                 autogrow
                 dense
@@ -304,7 +301,7 @@
               <textarea
                 ref="message3"
                 style="min-height: 12.5vh; max-height: 12.5vh;"
-                class="q-pa-sm bg-white full-width rounded-all"
+                class="q-pa-sm bg-white full-width rounded-borders"
                 placeholder="Digite a mensagem"
                 autogrow
                 dense
@@ -365,7 +362,7 @@
                 <MensagemChat
                   :isLineDate="false"
                   size="8"
-                  class="full-width rounded-all"
+                  class="full-width"
                   :mensagens="cMessages"
                 />
               </cMolduraCelular>
@@ -381,10 +378,8 @@
             color="negative"
             v-close-popup
             class="q-mr-md"
-            rounded
           />
           <q-btn
-            rounded
             label="Salvar"
             color="positive"
             icon="save"
@@ -411,7 +406,7 @@ const isValidDate = (v) => {
 }
 
 const downloadImageCors = axios.create({
-  baseURL: process.env.VUE_URL_API,
+  baseURL: process.env.URL_API,
   timeout: 20000,
   headers: {
     responseType: 'blob'
@@ -456,7 +451,7 @@ export default {
         message2: null,
         message3: null,
         sessionId: null,
-        delay: 61
+        delay: 40
       },
       messageTemplate: {
         mediaUrl: null,
@@ -470,7 +465,7 @@ export default {
         createdAt: '2021-02-20T20:09:04.736Z',
         updatedAt: '2021-02-20T23:26:24.311Z',
         quotedMsgId: null,
-        delay: 61,
+        delay: 40,
         ticketId: 0,
         contactId: null,
         userId: null,
@@ -589,7 +584,7 @@ export default {
         message4: null,
         mediaUrl: null,
         userId: null,
-        delay: 61,
+        delay: 40,
         sessionId: null
       }
     },
@@ -647,10 +642,10 @@ export default {
         })
         return
       }
-      if (this.campanha.delay < 61) {
+      if (this.campanha.delay < 40) {
         this.$q.notify({
           type: 'negative',
-          message: 'O campo delay deve ser no mínimo 61'
+          message: 'O campo delay deve ser no mínimo 40'
         })
         return
       }

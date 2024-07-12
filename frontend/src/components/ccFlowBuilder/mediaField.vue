@@ -11,7 +11,6 @@
         <q-file
           style="display: none"
           :loading="loading"
-          rounded
           label="Mídia composição mensagem"
           ref="PickerFileMessage"
           v-model="file"
@@ -69,7 +68,7 @@
                   borderBottomLeftRadius: 8px;
                   borderBottomRightRadius: 8px;"
             type="video/mp4"
-          >
+                >
           </video>
           <audio
             v-if="cMediaUrl && $attrs.element.data.type.indexOf('audio') != -1"

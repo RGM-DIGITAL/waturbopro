@@ -2,6 +2,7 @@
   <div v-if="userProfile === 'admin'">
     <q-table
       flat
+      bordered
       square
       hide-bottom
       class="my-sticky-dynamic q-ma-lg"
@@ -16,9 +17,9 @@
       <template v-slot:top-right>
         <q-btn
           class="q-mr-md"
-          color="black"
+          color="primary"
           icon="refresh"
-          rounded
+          outline
           @click="listarCampanhas"
         >
           <q-tooltip>
@@ -26,7 +27,6 @@
           </q-tooltip>
         </q-btn>
         <q-btn
-          rounded
           color="primary"
           label="Adicionar"
           @click="campanhaEdicao = {}; modalCampanha = true"

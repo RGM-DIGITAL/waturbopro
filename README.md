@@ -1,27 +1,48 @@
-[![Grupo do WhatsApp](https://img.shields.io/badge/WhatsApp-Grupo%20IZING-brightgreen.svg)](https://chat.whatsapp.com/IIReEheixAx27ZbneHpskP)
-
-[Fork do projeto ldurans](https://github.com/ldurans/izing.open.io)
-
-# Izing
+# Whazing SaaS
 
 Um sistema para gestão de atendimento multicanais centralizado.
 
-usuario normal: admin@izing.io senha: 123456
+Esta versão foi trocada pela api [@whiskeysockets/baileys](https://github.com/WhiskeySockets/Baileys)
 
-Essa versão esta alguns bugs corrigidos e novos recursos:
+Acesso instagram funcional somente use servidor no Brasil pois usa instagram web
 
-- Editar mensagens
-- Receber localização
-- Abas tela atendimento
-- Limite de usuarios e canais funcional
-- Suporte audio iphone
-- Erro sincronizar contatos
-- Outros ajustes para melhorar desempenho
-- Mudança sistema cache para melhor conexão
+Novos recursos
+- Painel SaaS
+- Chat Interno
+- Solicitar teste na pagina de login
+- Planos
+- Menu Ajuda
+- Integração bancaria recebimento PIX, verificar docs
 
-**IMPORTANTE**: não garantimos que a utilização desta ferramenta não irá gerar bloqueio nas contas utilizadas. São bots que em sua maioria utilizam APIs secundarias para comunicação com os fornecedores dos serviços. Use com responsabilidade!
+Dados de Acesso
 
-<br/>
+admin@admin.com
+123456
+
+
+**IMPORTANTE**: 
+Versão grátis disponivel nesse repositorio*
+
+- Limite 10 usuários e 2 canais
+
+
+Versão Premium
+
+-Não posso possui limites
+
+Essa versão ja está codigo inicial (webhook) para validar licença.
+*Durante a fase beta os recursos premium estaram liberados para todos
+
+
+## Screenshots
+>![Doação](screenshots/solicitarteste.png) 
+___  
+>![Doação](screenshots/planos.png)
+___
+
+>![Doação](screenshots/config.png)
+___
+
 
 ## Principais funcionalidades
 
@@ -33,39 +54,15 @@ Essa versão esta alguns bugs corrigidos e novos recursos:
 - Enviar e receber mídias diversas (imagens/áudio/documentos) ✅
 - Multiempresas (abordagem de base compartilhada)
 
-<br/>
-
+  
 ## Instalando
 Seguem links sugerimos:
--  [Como Instalar o IZING AAPANEL -  Video](https://www.youtube.com/watch?v=pw5KMtdVw0s)
--  [Como Instalar o IZING - Video](https://youtu.be/-Woqu4W5Zzs?si=jcZYX3yPL60XkAd)
--  [Como Instalar o IZING - Video opção 2](https://youtu.be/bZ-jXRtcGyc?si=B8oQxv0V0V36fgrF)
 
--  [Como Instalar o IZING VPS - Texto - UBUNTU 20, 22](docs/INSTALL_VPS_UBUNTU_20_22.md)
+-  [Como Instalar o Whazing VPS - Texto - UBUNTU 20, 22](docs/INSTALL_VPS_UBUNTU_20_22.md)
 
--  [Instalador automatico IZING LOCALHOST](https://github.com/cleitonme/izing.local)
--  [Instalador automatico](https://github.com/cleitonme/izing.instalador)
+-  [Instalador automatico](https://github.com/cleitonme/Whazing-SaaS.instalador)
 <br/>
 
-
-## Atualizando
-
-Tem script "update-izing" para facilitar atualização ele somente funciona se tiver instalado pasta izing.io
-
-sh update-izing
-
-<br/>
-
-**IMPORTANTE**: verifique sempre o .env.example e ajuste o seu .env antes de atualizar, uma vez que algumas novas variáveis podem ser adicionadas.
-
-
-<br/>
-
-## FIQUE ATENTO
-
-A utilização desta ferramenta é feita por sua conta e risco. O código é aberto e todos podem contribuir.
-
-Este projeto não é afiliado, associado, autorizado, endossado por, ou de qualquer forma oficialmente ligado à WhatsApp, ou a qualquer uma das suas filiais ou afiliadas. O website oficial da WhatsApp pode ser encontrado em <https://whatsapp.com>. "WhatsApp", bem como nomes, marcas, emblemas e imagens relacionadas são marcas registadas dos seus respectivos proprietários.
 
 ## Recomendação de VPS boa e barata
 
@@ -81,4 +78,4 @@ WHAZING
 
 Para quem gostaria de uma consultoria ou que eu faça instalação pode chamar no whatsapp (será cobrado por isso) 48 999416725
 
--  [Versão baseada no izing com Painel SaaS e API Baileys](https://github.com/cleitonme/Whazing-SaaS)
+Acesso pasta SRC pode chamar no whatsapp (será cobrado por isso) 48 999416725

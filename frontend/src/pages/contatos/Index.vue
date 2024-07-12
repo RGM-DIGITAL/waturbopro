@@ -42,9 +42,8 @@
           'order-last q-mt-md': $q.screen.width < 500
         }"
           style="width: 300px"
+          filled
           dense
-          outlined
-          rounded
           debounce="500"
           v-model="filter"
           clearable
@@ -55,45 +54,32 @@
             <q-icon name="search" />
           </template>
         </q-input>
-        <q-space />
-        <q-btn-dropdown
+        <q-btn
+          class="q-ml-md"
+          color="warning"
+          label="Sincronizar"
+          @click="confirmarSincronizarContatos('whatsapp')"
+        />
+        <q-btn
+          class="q-ml-md"
+          color="black"
+          label="Importar"
+          v-if="!isChatContact"
+          @click="modalImportarContatos = true"
+        />
+        <q-btn
+          class="q-ml-md"
+          color="grey-8"
+          v-if="!isChatContact"
+          label="Exportar"
+          @click="handleExportContacts"
+        />
+        <q-btn
+          class="q-ml-md"
           color="primary"
           label="Adicionar"
-          rounded
-          split
-          class="glossy"
           @click="selectedContactId = null; modalContato = true"
-        >
-          <q-list separator>
-            <q-item
-              clickable
-              v-close-popup
-              @click="confirmarSincronizarContatos"
-            >
-              <q-item-section>
-                <q-item-label>Importar do Whatsapp</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item
-              clickable
-              v-close-popup
-              @click="modalImportarContatos = true"
-            >
-              <q-item-section>
-                <q-item-label>Importar .CSV</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item
-              clickable
-              v-close-popup
-              @click="handleExportContacts"
-            >
-              <q-item-section>
-                <q-item-label>Exportar</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-btn-dropdown>
+        />
       </template>
       <template v-slot:body-cell-profilePicUrl="props">
         <q-td>
@@ -170,25 +156,24 @@
     <q-dialog
       v-model="modalImportarContatos"
       persistent
-      position="top"
       @show="abrirEnvioArquivo"
     >
       <q-card style="width: 400px;">
         <q-card-section class="row items-center">
-          <div class="text-h6">Selecione o arquivo</div>
+          <div class="text-h6">Importar Contatos</div>
         </q-card-section>
         <q-card-section>
           <q-file
             ref="PickerFileMessage"
             id="PickerFileMessage"
+            bg-color="blue-grey-1"
             outlined
             dense
-            rounded
             use-chips
             accept=".csv"
             v-model="file"
-            label="Arquivo de contatos"
-            hint="Colunas: Nome; Numero"
+            label="Importar contatos"
+            hint="O arquivo deve conter as colunas Nome e Numero"
           >
             <template v-slot:prepend>
               <q-icon name="cloud_upload" />
@@ -196,94 +181,115 @@
           </q-file>
 
         </q-card-section>
-        <q-card-section class="row q-gutter-sm">
-          <div class="col-12">
-            <q-select
-              class="full-width"
-              outlined
-              dense
-              rounded
-              v-model="tags"
-              multiple
-              label="Etiquetas"
-              :options="etiquetas"
-              use-chips
-              option-value="id"
-              option-label="tag"
-              emit-value
-              map-options
-            >
-              <template v-slot:option="{ itemProps, itemEvents, opt, selected, toggleOption }">
-                <q-item
-                  v-bind="itemProps"
-                  v-on="itemEvents"
-                >
-                  <q-item-section>
-                    <q-item-label v-html="opt.tag"></q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-checkbox
-                      :value="selected"
-                      @input="toggleOption(opt)"
+        <q-card-section>
+          <q-card
+            class="bg-white q-mt-sm btn-rounded"
+            style="width: 100%"
+            bordered
+            flat
+          >
+            <q-card-section class="text-bold q-pb-none">
+              Etiquetas
+              <q-separator />
+            </q-card-section>
+            <q-card-section class="q-pa-none">
+              <q-select
+                square
+                borderless
+                v-model="tags"
+                multiple
+                :options="etiquetas"
+                use-chips
+                option-value="id"
+                option-label="tag"
+                emit-value
+                map-options
+                dropdown-icon="add"
+              >
+                <template v-slot:option="{ itemProps, itemEvents, opt, selected, toggleOption }">
+                  <q-item
+                    v-bind="itemProps"
+                    v-on="itemEvents"
+                  >
+                    <q-item-section>
+                      <q-item-label v-html="opt.tag"></q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-checkbox
+                        :value="selected"
+                        @input="toggleOption(opt)"
+                      />
+                    </q-item-section>
+                  </q-item>
+                </template>
+                <template v-slot:selected-item="{ opt }">
+                  <q-chip
+                    dense
+                    square
+                    color="white"
+                    text-color="primary"
+                    class="q-ma-xs row col-12 text-body1"
+                  >
+                    <q-icon
+                      :style="`color: ${opt.color}`"
+                      name="mdi-pound-box-outline"
+                      size="28px"
+                      class="q-mr-sm"
                     />
-                  </q-item-section>
-                </q-item>
-              </template>
-              <template v-slot:selected-item="{ opt }">
-                <q-chip
-                  dense
-                  square
-                  color="white"
-                  text-color="primary"
-                  class="q-ma-xs row col-12 text-body1"
-                >
-                  <q-icon
-                    :style="`color: ${opt.color}`"
-                    name="mdi-pound-box-outline"
-                    size="28px"
-                    class="q-mr-sm"
-                  />
-                  {{ opt.tag }}
-                </q-chip>
-              </template>
-              <template v-slot:no-option="{ itemProps, itemEvents }">
-                <q-item
-                  v-bind="itemProps"
-                  v-on="itemEvents"
-                >
-                  <q-item-section>
-                    <q-item-label class="text-negative text-bold">
-                      Ops... Sem etiquetas criadas!
-                    </q-item-label>
-                    <q-item-label caption>
-                      Cadastre novas etiquetas na administração de sistemas.
-                    </q-item-label>
-                  </q-item-section>
-                </q-item>
-              </template>
+                    {{ opt.tag }}
+                  </q-chip>
+                </template>
+                <template v-slot:no-option="{ itemProps, itemEvents }">
+                  <q-item
+                    v-bind="itemProps"
+                    v-on="itemEvents"
+                  >
+                    <q-item-section>
+                      <q-item-label class="text-negative text-bold">
+                        Ops... Sem etiquetas criadas!
+                      </q-item-label>
+                      <q-item-label caption>
+                        Cadastre novas etiquetas na administração de sistemas.
+                      </q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </template>
 
-            </q-select>
-          </div>
-          <div class="col-12">
-            <q-select
-              outlined
-              dense
-              rounded
-              class="full-width"
-              v-model="wallets"
-              multiple
-              :max-values="1"
-              :options="usuarios"
-              use-chips
-              label="Carteira"
-              option-value="id"
-              option-label="name"
-              emit-value
-              map-options
-            >
-            </q-select>
-
-          </div>
+              </q-select>
+            </q-card-section>
+          </q-card>
+        </q-card-section>
+        <q-card-section>
+          <q-card
+            class="bg-white q-mt-sm btn-rounded"
+            style="width: 100%"
+            bordered
+            flat
+          >
+            <q-card-section class="text-bold q-pb-none">
+              Carteira
+              <q-separator />
+            </q-card-section>
+            <q-card-section class="q-pa-none">
+              <q-select
+                square
+                borderless
+                v-model="wallets"
+                multiple
+                :max-values="1"
+                :options="usuarios"
+                use-chips
+                option-value="id"
+                option-label="name"
+                emit-value
+                map-options
+                dropdown-icon="add"
+              >
+              </q-select>
+            </q-card-section>
+          </q-card>
+        </q-card-section>
+        <q-card-section>
 
         </q-card-section>
         <q-card-actions align="right">
@@ -292,7 +298,6 @@
             color="negative"
             label="Cancelar"
             v-close-popup
-            rounded
             @click="isImportCSV = false; modalImportarContatos = false"
           />
 
@@ -300,14 +305,12 @@
             class="q-ml-md"
             color="positive"
             label="Confirmar"
-            rounded
             @click="handleImportCSV"
           />
           <q-btn
             class="q-ml-md"
-            color="primary"
+            color="warning"
             label="Baixar Modelo"
-            rounded
             @click="downloadModelCsv"
           />
         </q-card-actions>
@@ -523,6 +526,11 @@ export default {
     async listarContatos () {
       this.loading = true
       const { data } = await ListarContatos(this.params)
+      // const user = this.usuario
+      // console.log(data)
+      // data.contacts = data.contacts.filter(function (element) {
+      //   return (user.profile == 'admin' || element.tickets[0].userId == user.userId)
+      // })
       this.params.hasMore = data.hasMore
       this.LOAD_CONTACTS(data.contacts)
       this.loading = false
@@ -559,13 +567,11 @@ export default {
         },
         ok: {
           push: true,
-          rounded: true,
           color: 'positive',
           label: 'Iniciar'
         },
         cancel: {
           push: true,
-          rounded: true,
           label: 'Cancelar',
           color: 'negative'
         },
@@ -618,13 +624,11 @@ export default {
         cancel: {
           label: 'Não',
           color: 'primary',
-          rounded: true,
           push: true
         },
         ok: {
           label: 'Sim',
           color: 'negative',
-          rounded: true,
           push: true
         },
         persistent: true
@@ -687,33 +691,45 @@ export default {
         }
       })
     },
-    confirmarSincronizarContatos () {
+    confirmarSincronizarContatos(channel) {
+      const itens = []
+      const channelId = null
+      console.log(this.whatsapps)
+      this.whatsapps.forEach(w => {
+        if (w.type === channel) {
+          itens.push({ label: w.name, value: w.id })
+        }
+      })
       this.$q.dialog({
         title: 'Atenção!! Deseja realmente sincronizar os contatos? ',
         message: 'Todas os contatos com os quais você já conversou pelo Whatsapp serão criados. Isso pode demorar um pouco...',
+        options: {
+          type: 'radio',
+          model: channelId, // Use o channelId como modelo
+          isValid: v => !!v,
+          items: itens
+        },
         cancel: {
           label: 'Não',
-          rounded: true,
           color: 'primary',
           push: true
         },
         ok: {
           label: 'Sim',
-          rounded: true,
           color: 'warning',
           push: true
         },
         persistent: true
-      }).onOk(async () => {
+      }).onOk(async (channelId) => {
         this.loading = true
-        await this.sincronizarContatos()
+        await this.sincronizarContatos(channelId)
         this.loading = false
       })
     },
-    async sincronizarContatos () {
+    async sincronizarContatos (channelId) {
       try {
         this.loading = true
-        await SyncronizarContatos()
+        await SyncronizarContatos(channelId)
         this.$q.notify({
           type: 'info',
           progress: true,

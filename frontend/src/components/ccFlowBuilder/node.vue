@@ -47,7 +47,6 @@ export default {
     node: Object,
     activeElement: Object
   },
-
   data () {
     return {
       expanded: true

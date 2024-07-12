@@ -18,7 +18,6 @@
         <q-btn
           color="primary"
           label="Adicionar"
-          rounded
           @click="mensagemRapidaEmEdicao = {}; modalMensagemRapida = true"
         />
       </template>

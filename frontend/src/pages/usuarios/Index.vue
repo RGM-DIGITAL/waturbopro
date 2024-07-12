@@ -13,8 +13,7 @@
       <template v-slot:top-right>
         <q-input
           style="width: 300px"
-          outlined
-          rounded
+          filled
           dense
           class="col-grow"
           debounce="500"
@@ -27,9 +26,7 @@
             <q-icon name="search" />
           </template>
         </q-input>
-        <q-space />
         <q-btn
-          rounded
           class="q-ml-md col"
           :class="{
             'q-ml-none q-mt-md q-mr-md': $q.screen.width < 500
@@ -147,7 +144,7 @@ export default {
         }
       })
       const usersObj = [...this.usuarios, ...newUsers]
-      this.usuarios = usersObj.filter(usuario => usuario.profile !== 'super')
+      this.usuarios = usersObj
     },
     UPDATE_USUARIO (usuario) {
       let newUsuarios = [...this.usuarios]

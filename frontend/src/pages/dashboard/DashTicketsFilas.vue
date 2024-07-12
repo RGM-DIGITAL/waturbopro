@@ -2,90 +2,48 @@
   <div v-if="userProfile === 'admin'">
     <div class="row col q-pa-md justify-between items-center">
       <h1> Painel Atendimentos </h1>
-      <q-btn color="primary"
-        icon="mdi-filter"
-        label="Filtros"
-        @click="visualizarFiltros = true" />
+      <q-btn color="primary" icon="mdi-filter" label="Filtros" @click="visualizarFiltros = true" />
       <q-separator />
     </div>
 
-    <q-dialog full-height
-      position="right"
-      v-model="visualizarFiltros">
+    <q-dialog full-height position="right" v-model="visualizarFiltros">
       <q-card style="width: 300px">
         <q-card-section>
           <div class="text-h6">Filtros</div>
         </q-card-section>
         <q-card-section class="q-gutter-md">
-          <DatePick dense
-            class="row col"
-            v-model="pesquisaTickets.dateStart" />
-          <DatePick dense
-            class="row col"
-            v-model="pesquisaTickets.dateEnd" />
+          <DatePick dense class="row col" v-model="pesquisaTickets.dateStart" />
+          <DatePick dense class="row col" v-model="pesquisaTickets.dateEnd" />
           <q-separator v-if="profile === 'admin'" />
-          <q-toggle v-if="profile === 'admin'"
-            class="q-ml-lg"
-            v-model="pesquisaTickets.showAll"
+          <q-toggle v-if="profile === 'admin'" class="q-ml-lg" v-model="pesquisaTickets.showAll"
             label="(Admin) - Visualizar Todos" />
-          <q-separator class="q-mb-md"
-            v-if="profile === 'admin'" />
+          <q-separator class="q-mb-md" v-if="profile === 'admin'" />
 
-          <q-select v-if="!pesquisaTickets.showAll"
-            square
-            dense
-            outlined
-            hide-bottom-space
-            emit-value
-            map-options
-            multiple
-            options-dense
-            use-chips
-            label="Filas"
-            color="primary"
-            v-model="pesquisaTickets.queuesIds"
-            :options="filas"
-            :input-debounce="700"
-            option-value="id"
-            option-label="queue"
+          <q-select v-if="!pesquisaTickets.showAll" square dense outlined hide-bottom-space emit-value map-options
+            multiple options-dense use-chips label="Filas" color="primary" v-model="pesquisaTickets.queuesIds"
+            :options="filas" :input-debounce="700" option-value="id" option-label="queue"
             input-style="width: 280px; max-width: 280px;" />
           <!-- @input="debounce(BuscarTicketFiltro(), 700)" -->
         </q-card-section>
         <q-card-section>
           <q-separator />
           <div class="text-h6 q-mt-md">Tipo de visualização</div>
-          <q-option-group :options="optionsVisao"
-            label="Visão"
-            type="radio"
-            v-model="visao" />
+          <q-option-group :options="optionsVisao" label="Visão" type="radio" v-model="visao" />
         </q-card-section>
         <q-card-actions align="center">
-          <q-btn outline
-            label="Atualizar"
-            color="primary"
-            v-close-popup
-            @click="consultarTickets" />
+          <q-btn outline label="Atualizar" color="primary" v-close-popup @click="consultarTickets" />
         </q-card-actions>
       </q-card>
     </q-dialog>
 
-    <div style="height: 85vh"
-      class="scroll">
+    <div style="height: 85vh" class="scroll">
       <template v-for="(items, key) in sets">
-        <div :style="{ height: 800 }"
-          :key="key"
-          class="row q-pa-md q-col-gutter-md q-mb-sm">
-          <div :class="contentClass"
-            v-for="(item, index) in items"
-            :key="index">
-            <q-card bordered
-              square
-              flat>
-              <q-item v-if="visao === 'U' || visao === 'US'"
-                class="text-bold"
-                :class="{
-                  'bg-negative text-white': definirNomeUsuario(item[0]) === 'Pendente'
-                }">
+        <div :style="{ height: 800 }" :key="key" class="row q-pa-md q-col-gutter-md q-mb-sm">
+          <div :class="contentClass" v-for="(item, index) in items" :key="index">
+            <q-card bordered square flat>
+              <q-item v-if="visao === 'U' || visao === 'US'" class="text-bold" :class="{
+                'bg-negative text-white': definirNomeUsuario(item[0]) === 'Pendente'
+              }">
                 <!-- <q-item-section avatar>
                   <q-avatar>
                     <img src="https://cdn.quasar.dev/img/boy-avatar.png">
@@ -93,20 +51,17 @@
                 </q-item-section> -->
                 <q-item-section>
                   <q-item-label class="text-bold text-h6">{{ definirNomeUsuario(item[0]) }}</q-item-label>
-                  <q-item-label caption
-                    :class="{
-                      'text-white': definirNomeUsuario(item[0]) === 'Pendente'
-                    }">
+                  <q-item-label caption :class="{
+                    'text-white': definirNomeUsuario(item[0]) === 'Pendente'
+                  }">
                     Atendimentos: {{ item.length }}
                   </q-item-label>
                 </q-item-section>
               </q-item>
 
-              <q-item v-if="visao === 'F' || visao === 'FS'"
-                class="text-bold"
-                :class="{
-                  'bg-negative text-white': definirNomeFila(item[0]) === 'Sem Fila'
-                }">
+              <q-item v-if="visao === 'F' || visao === 'FS'" class="text-bold" :class="{
+                'bg-negative text-white': definirNomeFila(item[0]) === 'Sem Fila'
+              }">
                 <q-item-section avatar>
                   <q-avatar>
                     <img src="https://cdn.quasar.dev/img/boy-avatar.png">
@@ -114,24 +69,18 @@
                 </q-item-section>
                 <q-item-section>
                   <q-item-label>{{ definirNomeFila(item[0]) }}</q-item-label>
-                  <q-item-label caption
-                    :class="{
-                      'text-white': definirNomeFila(item[0]) === 'Sem Fila'
-                    }">
+                  <q-item-label caption :class="{
+                    'text-white': definirNomeFila(item[0]) === 'Sem Fila'
+                  }">
                     Abertos: {{ counterStatus(item).open }} | Pendentes: {{ counterStatus(item).pending }} | Total: {{
-                        item.length
+                      item.length
                     }}
                   </q-item-label>
                 </q-item-section>
               </q-item>
               <q-separator />
-              <q-card-section :style="{ height: '320px' }"
-                class="scroll"
-                v-if="visao === 'U' || visao === 'F'">
-                <ItemTicket v-for="(ticket, i) in item"
-                  :key="i"
-                  :ticket="ticket"
-                  :filas="filas" />
+              <q-card-section :style="{ height: '320px' }" class="scroll" v-if="visao === 'U' || visao === 'F'">
+                <ItemTicket v-for="(ticket, i) in item" :key="i" :ticket="ticket" :filas="filas" />
               </q-card-section>
             </q-card>
           </div>
@@ -145,9 +94,6 @@
 
 <script>
 const usuario = JSON.parse(localStorage.getItem('usuario'))
-import { socketIO } from 'src/utils/socket'
-const socket = socketIO()
-
 import ItemTicket from 'src/pages/atendimento/ItemTicket'
 import { ConsultarTicketsQueuesService } from 'src/service/estatisticas.js'
 import { ListarFilas } from 'src/service/filas'
@@ -158,7 +104,7 @@ import { format, sub } from 'date-fns'
 export default {
   name: 'Painel De Controle',
   components: { ItemTicket },
-  data () {
+  data() {
     return {
       userProfile: 'user',
       profile,
@@ -184,7 +130,7 @@ export default {
     }
   },
   computed: {
-    contentClass () {
+    contentClass() {
       let contentClass = 'col'
       const keysLenSize = Object.keys(this.cTicketsUser[0]).length
       for (const size of ['xl', 'lg', 'md', 'sm', 'xs']) {
@@ -195,7 +141,7 @@ export default {
       }
       return contentClass
     },
-    sets () {
+    sets() {
       const sets = []
       // const items = this.itemsPerSet
       const limit = Math.ceil(this.cTicketsUser.length / this.itemsPerSet)
@@ -206,7 +152,7 @@ export default {
       }
       return sets[0]
     },
-    itemsPerSet () {
+    itemsPerSet() {
       let cond = false
       for (const size of ['xl', 'lg', 'md', 'sm', 'xs']) {
         cond = cond || this.$q.screen[size]
@@ -216,7 +162,7 @@ export default {
       }
       return 1
     },
-    cUserQueues () {
+    cUserQueues() {
       try {
         const filasUsuario = JSON.parse(UserQueues).map(q => {
           if (q.isActive) {
@@ -228,18 +174,18 @@ export default {
         return []
       }
     },
-    cTicketsUser () {
+    cTicketsUser() {
       const field = this.visao === 'U' || this.visao === 'US' ? 'userId' : 'queueId'
       return [groupBy(this.tickets, field)]
     }
   },
   methods: {
-    deleteTicket (ticketId) {
+    deleteTicket(ticketId) {
       const newTickets = [...this.tickets]
       const ticketsFilter = newTickets.filter(t => t.id !== ticketId)
       this.tickets = [...ticketsFilter]
     },
-    updateTicket (ticket) {
+    updateTicket(ticket) {
       const newTickets = [...this.tickets]
       const idx = newTickets.findIndex(t => ticket.id)
       if (idx) {
@@ -247,12 +193,12 @@ export default {
         this.tickets = [...newTickets]
       }
     },
-    createTicket (ticket) {
+    createTicket(ticket) {
       const newTickets = [...this.tickets]
       newTickets.unshift(ticket)
       this.tickets = [...newTickets]
     },
-    verifyIsActionSocket (data) {
+    verifyIsActionSocket(data) {
       if (!data.id) return false
 
       // mostrar todos
@@ -272,7 +218,7 @@ export default {
 
       // verificar se o usuario possui ecesso a fila do ticket
     },
-    conectSocketQueues (tenantId, queueId) {
+    conectSocketQueues(tenantId, queueId) {
       // socket.on(`${tenantId}:${queueId}:ticket:queue`, data => {
       //   if (!this.verifyIsActionSocket(data.ticket)) return
 
@@ -287,7 +233,7 @@ export default {
       //   }
       // })
     },
-    socketTickets (tenantId) {
+    socketTickets(tenantId) {
       // socket.emit(`${tenantId}:joinTickets`, 'open')
       // socket.emit(`${tenantId}:joinTickets`, 'pending')
 
@@ -314,21 +260,20 @@ export default {
       //   }
       // })
     },
-    connectSocket () {
-      this.socketTickets()
+    connectSocket() {
       this.cUserQueues.forEach(el => {
         this.conectSocketQueues(usuario.tenantId, el.id)
       })
     },
-    definirNomeUsuario (item) {
+    definirNomeUsuario(item) {
       this.verifyIsActionSocket(item)
       return item?.user?.name || 'Pendente'
     },
-    definirNomeFila (f) {
+    definirNomeFila(f) {
       const fila = this.filas.find(fila => fila.id === f.queueId)
       return fila?.queue || 'Sem Fila'
     },
-    counterStatus (tickets) {
+    counterStatus(tickets) {
       const status = {
         open: 0,
         pending: 0,
@@ -340,7 +285,7 @@ export default {
       status.closed = group.closed?.length || 0
       return status
     },
-    consultarTickets () {
+    consultarTickets() {
       ConsultarTicketsQueuesService(this.pesquisaTickets)
         .then(res => {
           this.tickets = res.data
@@ -351,24 +296,19 @@ export default {
           this.$notificarErro('Erro ao consultar atendimentos', error)
         })
     },
-    onResize ({ height }) {
+    onResize({ height }) {
       this.height = height
     }
   },
 
-  async mounted () {
+  async mounted() {
     this.userProfile = localStorage.getItem('profile')
     await ListarFilas().then(res => {
       this.filas = res.data
     })
     await this.consultarTickets()
-  },
-  destroyed () {
-    socket.disconnect()
   }
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
