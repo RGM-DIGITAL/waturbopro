@@ -95,6 +95,12 @@ export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
           executablePath: process.env.CHROME_BIN || undefined,
           args
         },
+        webVersion: process.env.WEB_VERSION || "2.2412.54",
+        webVersionCache: {
+          type: "remote",
+          remotePath:
+            "https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/{version}.html"
+        },
         qrMaxRetries: 5
       }) as Session;
 
@@ -153,8 +159,7 @@ export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
         logger.info(`Session: ${sessionName}-READY`);
 
         const info: any = wbot?.info;
-        const version = await wbot.getWWebVersion();
-        console.log(`WWeb v${version}`);
+        const wbotVersion = await wbot.getWWebVersion();
         const wbotBrowser = await wbot.pupBrowser?.version();
         await whatsapp.update({
           status: "CONNECTED",
@@ -163,6 +168,7 @@ export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
           number: wbot?.info?.wid?.user, // || wbot?.info?.me?.user,
           phone: {
             ...(info || {}),
+            wbotVersion,
             wbotBrowser
           }
         });
