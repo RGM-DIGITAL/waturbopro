@@ -25,36 +25,6 @@ socket.on(`tokenInvalid:${socket.id}`, () => {
 })
 
 export default {
-  created() {
-    socket.on(`${usuario.tenantId}:mensagem-chat-interno`, data => {
-      if (data.action === 'update' && (data.data.receiverId == usuario.userId || data.data.groupId != null)) {
-        this.$store.commit('MENSAGEM_INTERNA_UPDATE', data)
-      }
-    })
-
-    socket.on(`${usuario.tenantId}:unread-mensagem-chat-interno`, data => {
-      if (data.action === 'update' && data.data.senderId == usuario.userId) {
-        this.$store.commit('UNREAD_MENSAGEM_INTERNA_UPDATE', data)
-      }
-    })
-
-    socket.on(`${usuario.tenantId}:mensagem-chat-interno-notificacao`, data => {
-      if (data.action === 'update' && (data.data.receiverId == usuario.userId || data.data.groupId != null)) {
-        this.$store.commit('NOTIFICACAO_CHAT_INTERNO_UPDATE', data)
-      }
-    })
-
-    socket.on('verifyOnlineUsers', data => {
-      this.$store.commit('LISTA_USUARIOS_CHAT_INTERNO', { action: 'updateAllUsers', data: {} })
-      this.socket.emit(`${usuario.tenantId}:userVerified`, usuario)
-    })
-
-    socket.on(`${usuario.tenantId}:user-online`, data => {
-      if (data.action === 'update' && data.data.userId !== usuario.userId) {
-        this.$store.commit('USER_CHAT_UPDATE', data)
-      }
-    })
-  },
   methods: {
     scrollToBottom () {
       setTimeout(() => {
@@ -115,13 +85,13 @@ export default {
             const params = {
               searchParam: '',
               pageNumber: 1,
-              status: ['open', 'pending', 'closed'],
+              status: ['open'],
               showAll: false,
               count: null,
               queuesIds: [],
-              withUnreadMessages: [true, false],
-              isNotAssignedUser: [true, false],
-              includeNotQueueDefined: [true, false]
+              withUnreadMessages: true,
+              isNotAssignedUser: false,
+              includeNotQueueDefined: true
               // date: new Date(),
             }
             console.log('Definiu parametros')
@@ -147,12 +117,8 @@ export default {
             this.$store.commit('UPDATE_MESSAGE_STATUS', data.payload)
           }
 
-          if (data.type === 'chat:update') {
-            this.$store.commit('UPDATE_MESSAGE', data.payload)
-          }
           if (data.type === 'ticket:update') {
             this.$store.commit('UPDATE_TICKET', data.payload)
-            this.$store.commit('UPDATE_NOTIFICATIONS', data.payload)
           }
         })
         socket.on(`${usuario.tenantId}:ticketList`, async data => {
@@ -164,7 +130,7 @@ export default {
             const params = {
               searchParam: '',
               pageNumber: 1,
-              status: ['open', 'pending', 'closed'],
+              status: ['pending'],
               showAll: false,
               count: null,
               queuesIds: [],

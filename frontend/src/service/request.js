@@ -8,7 +8,7 @@ import backendErrors from './erros'
 import { RefreshToken } from './login'
 
 const service = axios.create({
-  baseURL: process.env.URL_API,
+  baseURL: process.env.VUE_URL_API,
   timeout: 20000
 })
 

@@ -29,7 +29,7 @@ const backendErrors = {
   ERR_CREATING_MESSAGE: 'Erro ao criar mensagem no banco de dados.',
   ERR_CREATING_TICKET: 'Erro ao criar Ticket no banco de dados.',
   ERR_FETCH_WAPP_MSG:
-    'Erro ao buscar a mensagem no WhatsApp, talvez ela seja muito antiga.'
+    'Erro ao buscar a mensagem no WhtasApp, talvez ela seja muito antiga.'
 }
 
 export default backendErrors

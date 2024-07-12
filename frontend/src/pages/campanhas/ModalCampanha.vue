@@ -18,9 +18,9 @@
       <q-card-section class="q-pb-none">
         <div class="row q-gutter-sm">
           <q-input
-            class="required"
             outlined
             dense
+            rounded
             style="width: 500px"
             v-model="campanha.name"
             label="Nome da Campanha"
@@ -31,6 +31,7 @@
           <q-datetime-picker
             style="width: 200px"
             dense
+            rounded
             hide-bottom-space
             outlined
             stack-label
@@ -45,7 +46,7 @@
             error-message="Não pode ser inferior ao dia atual"
           />
           <q-select
-            class="required"
+            rounded
             dense
             outlined
             emit-value
@@ -64,7 +65,7 @@
             style="width: 250px"
           />
           <q-input
-            class="required"
+            rounded
             outlined
             dense
             style="width: 160px"
@@ -76,6 +77,7 @@
           />
           <q-file
             dense
+            rounded
             v-if="!campanha.mediaUrl"
             :loading="loading"
             label="Mídia composição mensagem"
@@ -99,6 +101,7 @@
           <q-input
             v-if="campanha.mediaUrl"
             readonly
+            rounded
             label="Mídia composição mensagem"
             :value="cArquivoName"
             class=" col-grow "
@@ -159,7 +162,7 @@
               <textarea
                 ref="message1"
                 style="min-height: 12.5vh; max-height: 12.5vh;"
-                class="q-pa-sm bg-white full-width rounded-borders"
+                class="q-pa-sm bg-white full-width rounded-all"
                 :class="{
                   'bg-red-1': $v.campanha.message1.$error
                 }"
@@ -171,27 +174,6 @@
                 @input="(v) => campanha.message1 = v.target.value"
                 :value="campanha.message1"
               />
-              <q-btn round
-                flat
-                dense>
-                <q-icon size="2em"
-                  name="mdi-variable" />
-                <q-tooltip>
-                  Variáveis
-                </q-tooltip>
-                <q-menu touch-position>
-                  <q-list dense
-                    style="min-width: 100px">
-                    <q-item v-for="variavel in variaveis"
-                      :key="variavel.label"
-                      clickable
-                      @click="onInsertSelectVariable(variavel.value, 'message1', 'message1')"
-                      v-close-popup>
-                      <q-item-section>{{ variavel.label }}</q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-menu>
-              </q-btn>
               <q-separator class="q-my-md" />
             </div>
           </div>
@@ -230,7 +212,7 @@
               <textarea
                 ref="message2"
                 style="min-height: 12.5vh; max-height: 12.5vh;"
-                class="q-pa-sm bg-white full-width rounded-borders"
+                class="q-pa-sm bg-white full-width rounded-all"
                 placeholder="Digite a mensagem"
                 autogrow
                 dense
@@ -242,27 +224,6 @@
                 @input="(v) => campanha.message2 = v.target.value"
                 :value="campanha.message2"
               />
-              <q-btn round
-                flat
-                dense>
-                <q-icon size="2em"
-                  name="mdi-variable" />
-                <q-tooltip>
-                  Variáveis
-                </q-tooltip>
-                <q-menu touch-position>
-                  <q-list dense
-                    style="min-width: 100px">
-                    <q-item v-for="variavel in variaveis"
-                      :key="variavel.label"
-                      clickable
-                      @click="onInsertSelectVariable(variavel.value, 'message2', 'message2')"
-                      v-close-popup>
-                      <q-item-section>{{ variavel.label }}</q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-menu>
-              </q-btn>
               <q-separator class="q-my-md" />
             </div>
           </div>
@@ -301,7 +262,7 @@
               <textarea
                 ref="message3"
                 style="min-height: 12.5vh; max-height: 12.5vh;"
-                class="q-pa-sm bg-white full-width rounded-borders"
+                class="q-pa-sm bg-white full-width rounded-all"
                 placeholder="Digite a mensagem"
                 autogrow
                 dense
@@ -313,27 +274,6 @@
                 @input="(v) => campanha.message3 = v.target.value"
                 :value="campanha.message3"
               />
-              <q-btn round
-                flat
-                dense>
-                <q-icon size="2em"
-                  name="mdi-variable" />
-                <q-tooltip>
-                  Variáveis
-                </q-tooltip>
-                <q-menu touch-position>
-                  <q-list dense
-                    style="min-width: 100px">
-                    <q-item v-for="variavel in variaveis"
-                      :key="variavel.label"
-                      clickable
-                      @click="onInsertSelectVariable(variavel.value, 'message3', 'message3')"
-                      v-close-popup>
-                      <q-item-section>{{ variavel.label }}</q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-menu>
-              </q-btn>
             </div>
           </div>
         </div>
@@ -362,7 +302,7 @@
                 <MensagemChat
                   :isLineDate="false"
                   size="8"
-                  class="full-width"
+                  class="full-width rounded-all"
                   :mensagens="cMessages"
                 />
               </cMolduraCelular>
@@ -378,8 +318,10 @@
             color="negative"
             v-close-popup
             class="q-mr-md"
+            rounded
           />
           <q-btn
+            rounded
             label="Salvar"
             color="positive"
             icon="save"
@@ -406,7 +348,7 @@ const isValidDate = (v) => {
 }
 
 const downloadImageCors = axios.create({
-  baseURL: process.env.URL_API,
+  baseURL: process.env.VUE_URL_API,
   timeout: 20000,
   headers: {
     responseType: 'blob'
@@ -430,10 +372,6 @@ export default {
   },
   data () {
     return {
-      variaveis: [
-        { label: 'Nome', value: '{{name}}' },
-        { label: 'Saudação', value: '{{greeting}}' }
-      ],
       optRadio: [
         { label: 'Msg.1', value: 'message1' },
         { label: 'Msg. 2', value: 'message2' },
@@ -451,7 +389,7 @@ export default {
         message2: null,
         message3: null,
         sessionId: null,
-        delay: 40
+        delay: 20
       },
       messageTemplate: {
         mediaUrl: null,
@@ -465,7 +403,7 @@ export default {
         createdAt: '2021-02-20T20:09:04.736Z',
         updatedAt: '2021-02-20T23:26:24.311Z',
         quotedMsgId: null,
-        delay: 40,
+        delay: 20,
         ticketId: 0,
         contactId: null,
         userId: null,
@@ -534,24 +472,6 @@ export default {
     }
   },
   methods: {
-    onInsertSelectVariable (variable, ref, messageField) {
-      var tArea = this.$refs[ref]
-      if (!tArea) {
-        return
-      }
-
-      var startPos = tArea.selectionStart
-      var endPos = tArea.selectionEnd
-      var originalText = tArea.value
-
-      if (!variable) {
-        return
-      }
-      var newText = originalText.substring(0, startPos) + variable + originalText.substring(endPos)
-      this.campanha[messageField] = newText
-      var newCursorPos = startPos + variable.length
-      tArea.setSelectionRange(newCursorPos, newCursorPos)
-    },
     onInsertSelectEmoji (emoji, ref) {
       const self = this
       var tArea = this.$refs[ref]
@@ -584,7 +504,7 @@ export default {
         message4: null,
         mediaUrl: null,
         userId: null,
-        delay: 40,
+        delay: 20,
         sessionId: null
       }
     },
@@ -635,20 +555,6 @@ export default {
       this.loading = false
     },
     async handleCampanha () {
-      if (this.campanha.message1 === this.campanha.message2 || this.campanha.message1 === this.campanha.message3 || this.campanha.message2 === this.campanha.message3) {
-        this.$q.notify({
-          type: 'negative',
-          message: 'As mensagens não podem ser iguais'
-        })
-        return
-      }
-      if (this.campanha.delay < 40) {
-        this.$q.notify({
-          type: 'negative',
-          message: 'O campo delay deve ser no mínimo 40'
-        })
-        return
-      }
       this.$v.campanha.$touch()
       if (this.$v.campanha.$error) {
         this.$q.notify({

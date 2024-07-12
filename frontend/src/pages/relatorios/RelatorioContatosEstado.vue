@@ -1,16 +1,16 @@
 <template>
-  <div v-if="userProfile === 'admin'">
+  <div>
     <q-card bordered>
       <q-card-section>
         <div class="text-h6 q-px-sm"> Relatório de Contatos por Estado </div>
       </q-card-section>
       <q-card-section class="q-pt-none">
-        <fieldset>
+        <fieldset class="rounded-all">
           <legend class="q-px-sm">Filtros</legend>
           <div class="row q-gutter-md items-end">
             <div class="col-xs-12 col-sm-7 grow text-center">
               <q-select
-                square
+                rounded
                 outlined
                 v-model="pesquisa.ddds"
                 multiple
@@ -41,11 +41,11 @@
                 <template v-slot:selected-item="{opt}">
                   <q-badge
                     dense
-                    square
+                    rounded
                     color="grey-3"
                     text-color="primary"
                     class="q-ma-xs text-body1"
-                    :label="opt.nome "
+                    :label="opt.nome"
                   >
                   </q-badge>
                 </template>
@@ -54,7 +54,8 @@
             <div class="col-grow text-center">
               <q-btn
                 class="q-mr-sm"
-                color="info"
+                color="primary"
+                rounded
                 label="Gerar"
                 icon="refresh"
                 @click="gerarRelatorio"
@@ -62,12 +63,14 @@
               <q-btn
                 class="q-mr-sm"
                 color="black"
+                rounded
                 icon="print"
                 label="Imprimir"
                 @click="printReport('tRelatorioContatosEtiquetas')"
               />
               <q-btn
                 color="warning"
+                rounded
                 label="Excel"
                 @click="exportTable('tRelatorioContatosEtiquetas')"
               />
@@ -189,7 +192,6 @@ export default {
   },
   data () {
     return {
-      userProfile: 'user',
       data: null,
       bl_sintetico: false,
       estadoPorDdd,
@@ -275,7 +277,6 @@ export default {
     }
   },
   beforeMount () {
-    this.userProfile = localStorage.getItem('profile')
     this.listarEtiquetas()
   },
   async mounted () {

@@ -11,6 +11,7 @@
         <q-file
           style="display: none"
           :loading="loading"
+          rounded
           label="Mídia composição mensagem"
           ref="PickerFileMessage"
           v-model="file"
@@ -25,7 +26,7 @@
           counter
           :max-file-size="10242880"
           :max-total-size="10242880"
-          accept=".txt, .jpg, .png, image/jpeg, .jpeg, image/*, .pdf, .doc, .docx, .xls, .xlsx, .zip, .ppt, .pptx, .mp4, .mp3, .ogg, .mpeg"
+          accept=".txt, .jpg, .png, image/jpeg, .jpeg, image/*, .pdf, .doc, .docx, .xls, .xlsx, .zip, .ppt, .pptx, .mp4, .mp3"
           @rejected="onRejectedFiles"
           @input="getMediaUrl"
         />
@@ -68,7 +69,7 @@
                   borderBottomLeftRadius: 8px;
                   borderBottomRightRadius: 8px;"
             type="video/mp4"
-                >
+          >
           </video>
           <audio
             v-if="cMediaUrl && $attrs.element.data.type.indexOf('audio') != -1"

@@ -1,25 +1,35 @@
 <template>
   <div>
     <q-header class="bg-white text-grey-10 no-border-radius">
-      <q-toolbar style="min-height: 60px; height: 60px;"
-        class="no-border-radius q-pa-none ">
-        <q-btn flat
+      <q-toolbar
+        style="min-height: 60px; height: 60px;"
+        class="no-border-radius q-pa-none "
+      >
+        <q-btn
+          flat
           dense
           round
           icon="mdi-menu"
           v-if="$q.screen.lt.md"
           class="q-mx-xs-none q-ml-md"
           :color="$q.dark.isActive ? 'white' : ''"
-          @click="$root.$emit('infor-cabecalo-chat:acao-menu')" />
-        <q-item clickable
+          @click="$root.$emit('infor-cabecalo-chat:acao-menu')"
+        />
+        <q-item
+          clickable
           v-ripple
           class="q-ma-none q-pa-none full"
           style="min-height: 60px; height: 60px; width: 300px;"
-          @click="$root.$emit('update-ticket:info-contato')">
-          <q-item-section avatar
-            class="q-pl-sm">
-            <q-btn round
-              flat>
+          @click="$root.$emit('update-ticket:info-contato')"
+        >
+          <q-item-section
+            avatar
+            class="q-pl-sm"
+          >
+            <q-btn
+              round
+              flat
+            >
               <q-avatar class="bg-grey">
                 <q-img :src="Value(cticket.contact, 'profilePicUrl')">
                 </q-img>
@@ -29,244 +39,184 @@
           <q-item-section id="InfoCabecalhoChat">
             <q-item-label class="text-bold">
               {{ Value(cticket.contact, 'name') }}
-              <q-skeleton v-if="!Value(cticket.contact, 'name')"
+              <q-skeleton
+                v-if="!Value(cticket.contact, 'name')"
                 animation="none"
-                style="width: 230px" />
+                style="width: 230px"
+              />
             </q-item-label>
-            <q-item-label caption
+            <q-item-label
+              caption
               lines="1"
               style="margin-top: 2px !important;"
-              :style="$q.screen.width < 500 ? 'max-width: 170px' : ''">
+              :style="$q.screen.width < 500 ? 'max-width: 170px' : ''"
+            >
               <span v-if="Value(cticket.user, 'name')"> Atribuido à: {{ Value(cticket.user, 'name') }} </span>
-              <q-skeleton v-else
+              <q-skeleton
+                v-else
                 type="text"
                 class="text-caption"
                 animation="none"
-                style="width: 150px" />
+                style="width: 150px"
+              />
             </q-item-label>
-            <q-item-label lines="1"
-              style="margin-top: 0px !important;">
-              <span v-if="Value(cticket.contact, 'name')"
+            <q-item-label
+              lines="1"
+              style="margin-top: 0px !important;"
+            >
+              <span
+                v-if="Value(cticket.contact, 'name')"
                 class=""
-                style="font-size: 11px"> Ticket: {{ cticket.id }}</span>
+                style="font-size: 11px"
+              > Ticket: {{ cticket.id }}</span>
             </q-item-label>
           </q-item-section>
         </q-item>
         <q-space />
-        <div class="q-gutter-xs q-pr-sm"
-          v-if="Value(cticket.contact, 'name')">
-          <template v-if="!$q.screen.xs">
-            <q-btn @click="$emit('updateTicket:reabrir')"
-              flat
-              autofocus
-              icon="mdi-reload"
-              color="cyan"
-              class="bg-padrao btn-rounded"
-              :disable="cticket.status == 'open'">
-              <q-tooltip content-class="bg-cyan text-bold">
-                Reabrir Ticket
-              </q-tooltip>
-            </q-btn>
-            <q-btn @click="$emit('abrir:modalAgendamentoMensagem')"
-              flat
-              icon="mdi-message-text-clock-outline"
-              color="amber-9"
-              class="bg-padrao btn-rounded"
-              :disable="cticket.status == 'closed'">
-              <q-tooltip content-class="bg-grey-9 text-bold">
-                Agendamento de mensagem
-              </q-tooltip>
-            </q-btn>
-            <q-btn @click="$emit('updateTicket:retornar')"
-              flat
-              icon="mdi-replay"
-              color="negative"
-              class="bg-padrao btn-rounded"
-              :disable="cticket.status == 'closed'">
-              <q-tooltip content-class="bg-negative text-bold">
-                Retornar Ticket para a Fila
-              </q-tooltip>
-            </q-btn>
-            <q-btn @click="$emit('updateTicket:resolver')"
-              color="positive"
-              flat
-              class="bg-padrao btn-rounded"
-              icon="mdi-comment-check"
-              :disable="cticket.status == 'closed'">
-              <q-tooltip content-class="bg-positive text-bold">
-                Resolver
-              </q-tooltip>
-            </q-btn>
-            <q-btn @click="listarFilas"
-              flat
-              color="primary"
-              class="bg-padrao btn-rounded"
-              :disable="cticket.status == 'closed'">
-              <q-icon name="mdi-transfer" />
-              <q-tooltip content-class="bg-primary text-bold">
-                Transferir
-              </q-tooltip>
-            </q-btn>
-          </template>
-          <template v-else>
-            <q-fab :disable="cticket.status == 'closed'"
-              color="primary"
-              flat
-              dense
-              class="bg-padrao text-bold "
-              icon="keyboard_arrow_left"
-              direction="down"
-              padding="5px"
-              label="Ações"
-              :class="{
-                'bg-black': $q.dark.isActive
-
-              }">
-              <q-fab-action @click="$emit('updateTicket:resolver')"
-                color="positive"
-                flat
-                class="bg-padrao q-pa-xs "
-                icon="mdi-comment-check"
-                :class="{
-                  'bg-black': $q.dark.isActive
-
-                }">
-                <q-tooltip content-class="bg-positive text-bold">
-                  Resolver
-                </q-tooltip>
-              </q-fab-action>
-              <q-fab-action @click="$emit('updateTicket:retornar')"
-                flat
-                icon="mdi-replay"
-                color="negative"
-                class="bg-padrao q-pa-xs "
-                :class="{
-                  'bg-black': $q.dark.isActive
-
-                }">
-                <q-tooltip content-class="bg-negative text-bold">
-                  Retornar Ticket para a Fila
-                </q-tooltip>
-              </q-fab-action>
-
-              <q-fab-action @click="listarFilas"
-                flat
-                color="primary"
-                class="bg-padrao q-pa-xs "
-                :class="{
-                  'bg-black-dark': $q.dark.isActive
-                }">
-                <q-icon name="mdi-transfer" />
-                <q-tooltip content-class="bg-primary text-bold">
-                  Transferir
-                </q-tooltip>
-              </q-fab-action>
-              <q-fab-action @click="$emit('abrir:modalAgendamentoMensagem')"
-                flat
-                color="amber-9"
-                class="bg-padrao q-pa-xs "
-                :class="{
-                  'bg-black': $q.dark.isActive
-
-                }">
-                <q-icon name="mdi-message-text-clock-outline" />
-                <q-tooltip content-class="bg-grey-9 text-bold">
-                  Agendamento de mensagem
-                </q-tooltip>
-              </q-fab-action>
-            </q-fab>
-          </template>
-
-          <!-- <q-btn
-            round
-            flat
-            icon="mdi-text-box-search-outline"
-          />
+        <div
+          class="q-gutter-xs q-pr-sm"
+          v-if="Value(cticket.contact, 'name')"
+        >
           <q-btn
-            round
-            flat
+            @click="$emit('abrir:modalAgendamentoMensagem')"
+            icon="mdi-message-text-clock-outline"
+            color="black"
+            rounded
+            :disable="cticket.status == 'closed'"
           >
-            <q-icon
-              name="mdi-attachment"
-              class="rotate-135"
-            />
+            <q-tooltip content-class="bg-grey-9 text-bold">
+              Agendamento de mensagem
+            </q-tooltip>
           </q-btn>
-          <q-btn
-            round
-            flat
-            icon="mdi-dots-vertical"
+
+          <q-btn-dropdown
+            split
+            color="positive"
+            no-caps
+            rounded
+            @click="$emit('updateTicket:resolver')"
+            icon="mdi-comment-check"
+            label="Resolver"
+            :disable-main-btn="cticket.status == 'closed'"
           >
-            <q-menu
-              auto-close
-              :offset="[110, 0]"
-            >
-              <q-list style="min-width: 150px">
-                <q-item clickable>
-                  <q-item-section>Contact data</q-item-section>
-                </q-item>
-                <q-item clickable>
-                  <q-item-section>Block</q-item-section>
-                </q-item>
-                <q-item clickable>
-                  <q-item-section>Select messages</q-item-section>
-                </q-item>
-                <q-item clickable>
-                  <q-item-section>Silence</q-item-section>
-                </q-item>
-                <q-item clickable>
-                  <q-item-section>Clear messages</q-item-section>
-                </q-item>
-                <q-item clickable>
-                  <q-item-section>Erase messages</q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
-          </q-btn> -->
+            <q-list>
+              <q-item
+                clickable
+                v-close-popup
+                v-if="cticket.status == 'closed'"
+                @click="$emit('updateTicket:reabrir')"
+              >
+                <q-item-section avatar>
+                  <q-avatar
+                    icon="mdi-reload"
+                    color="amber-6"
+                  />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Reabrir Ticket</q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-item
+                v-close-popup
+                @click="$emit('updateTicket:retornar')"
+                clickable
+                v-if="cticket.status == 'open'"
+              >
+                <q-item-section avatar>
+                  <q-avatar
+                    icon="mdi-replay"
+                    color="negative"
+                    text-color="white"
+                  />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Fila</q-item-label>
+                  <q-item-label caption>Retornar aos pendentes</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item
+                v-close-popup
+                @click="listarFilas"
+                clickable
+                v-if="cticket.status != 'closed'"
+              >
+                <q-item-section avatar>
+                  <q-avatar
+                    icon="mdi-transfer"
+                    color="primary"
+                    text-color="white"
+                  />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Transferir</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
         </div>
       </q-toolbar>
       <q-separator />
     </q-header>
 
-    <q-dialog v-model="modalTransferirTicket"
+    <q-dialog
+      v-model="modalTransferirTicket"
       @hide="modalTransferirTicket = false"
-      persistent>
-      <q-card class="q-pa-md"
-        style="width: 500px">
+      persistent
+    >
+      <q-card
+        class="q-pa-md"
+        style="width: 500px"
+      >
         <q-card-section>
           <div class="text-h6">Selecione o destino:</div>
         </q-card-section>
-        <q-card-section>
-          <q-select square
-            outlined
-            v-model="filaSelecionada"
-            :options="filas"
-            emit-value
-            map-options
-            option-value="id"
-            option-label="queue"
-            label="Fila de destino" />
-        </q-card-section>
-        <q-card-section>
-          <q-select square
-            outlined
-            v-model="usuarioSelecionado"
-            :options="usuarios.filter(filterUsers)"
-            emit-value
-            map-options
-            option-value="id"
-            option-label="name"
-            label="Usuário destino" />
+        <q-card-section class="row q-gutter-sm">
+          <div class="col-12">
+            <q-select
+              dense
+              rounded
+              outlined
+              v-model="filaSelecionada"
+              :options="filas"
+              emit-value
+              map-options
+              option-value="id"
+              option-label="queue"
+              label="Fila de destino"
+              class="full-width"
+            />
+          </div>
+          <div class="col-12">
+            <q-select
+              rounded
+              dense
+              outlined
+              v-model="usuarioSelecionado"
+              :options="usuarios.filter(filterUsers)"
+              emit-value
+              map-options
+              option-value="id"
+              option-label="name"
+              label="Usuário destino"
+              class="full-width"
+            />
+          </div>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn flat
+          <q-btn
+            rounded
             label="Sair"
             color="negative"
             v-close-popup
-            class="q-mr-lg" />
-          <q-btn flat
+            class="q-mr-md"
+          />
+          <q-btn
+            rounded
             label="Salvar"
-            color="primary"
-            @click="confirmarTransferenciaTicket" />
+            color="positive"
+            @click="confirmarTransferenciaTicket"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -278,9 +228,7 @@ const userId = +localStorage.getItem('userId')
 import { mapGetters } from 'vuex'
 import { ListarUsuarios } from 'src/service/user'
 import { ListarFilas } from 'src/service/filas'
-import { AtualizarTicket, EnviarMensagemTexto } from 'src/service/tickets'
-import { uid } from 'quasar'
-import { ListarConfiguracoes } from 'src/service/configuracoes'
+import { AtualizarTicket } from 'src/service/tickets'
 export default {
   name: 'InfoCabecalhoMensagens',
   data () {
@@ -305,15 +253,6 @@ export default {
     }
   },
   methods: {
-    async listarConfiguracoes() {
-      const { data } = await ListarConfiguracoes()
-      this.configuracoes = data
-      const MsgTransfTicket = this.configuracoes.filter(item => item.key === 'sendMsgTransfTicket')[0]
-
-      if (MsgTransfTicket.value === 'enabled') {
-        this.MsgTransf = true
-      }
-    },
     Value (obj, prop) {
       try {
         return obj[prop]
@@ -401,23 +340,6 @@ export default {
         status: this.usuarioSelecionado == null ? 'pending' : 'open',
         isTransference: 1
       })
-      await this.listarConfiguracoes()
-      if (this.MsgTransf) {
-        const message = {
-          read: 1,
-          fromMe: true,
-          mediaUrl: '',
-          body: 'Seu atendimento esta sendo transferido Por Favor aguarde, já vamos te atender!',
-          scheduleDate: null,
-          quotedMsg: null,
-          idFront: uid()
-        }
-        try {
-          await EnviarMensagemTexto(this.ticketFocado.id, message)
-        } catch (error) {
-          console.error('Erro ao enviar mensagem automática', error)
-        }
-      }
       this.$q.notify({
         type: 'positive',
         message: 'Ticket transferido.',

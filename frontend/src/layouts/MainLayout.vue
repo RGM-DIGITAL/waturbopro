@@ -1,107 +1,103 @@
 <template>
   <q-layout view="hHh Lpr lFf">
 
-    <q-header class="bg-white text-grey-8 q-py-xs " height-hint="58" bordered v-if="showMenu">
+    <q-header
+      class="bg-white text-grey-8 q-py-xs "
+      height-hint="58"
+      bordered
+    >
       <q-toolbar>
-        <q-btn flat
+        <q-btn
+          flat
           dense
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
           aria-label="Menu"
-          icon="menu">
+          icon="menu"
+        >
           <q-tooltip>Menu</q-tooltip>
         </q-btn>
 
-        <q-btn flat
+        <q-btn
+          flat
           no-caps
           no-wrap
           dense
           class="q-ml-sm"
-          v-if="$q.screen.gt.xs">
-          <q-img src="/logo.png"
+          v-if="$q.screen.gt.xs"
+        >
+          <q-img
+            src="/izing-logo_5_transparent.png"
             spinner-color="primary"
-            style="height: 50px; width: 140px" />
+            style="height: 50px; width: 140px"
+          />
         </q-btn>
+
         <q-space />
-        <div v-if="$q.screen.gt.xs">
-        <vencimento />
-        </div>
-            <q-btn round
-            dense
-            flat
-            color="grey-8" icon="refresh"
-            @click="reloadPage">
-            <q-tooltip >
-              Atualizar Página
-            </q-tooltip>
-          </q-btn>
 
         <div class="q-gutter-sm row items-center no-wrap">
-           <q-btn round
+          <q-btn
+            round
             dense
             flat
             color="grey-8"
-            icon="notifications">
-            <q-badge color="red"
+            icon="notifications"
+          >
+            <q-badge
+              color="red"
               text-color="white"
               floating
-              v-if="(parseInt(notificacoesChat) + parseInt(notifications_p.count)) > 0">
-              {{ this.notificacaoInternaNaoLida + parseInt(notifications_p.count) }}
+              v-if="(parseInt(notifications.count) + parseInt(notifications_p.count)) > 0"
+            >
+              {{ parseInt(notifications.count) + parseInt(notifications_p.count) }}
             </q-badge>
             <q-menu>
               <q-list style="min-width: 300px">
-                <q-item v-if="(parseInt(notificacoesChat) + parseInt(notifications_p.count)) == 0">
+
+                <q-item v-if="(parseInt(notifications.count) + parseInt(notifications_p.count)) == 0">
                   <q-item-section style="cursor: pointer;">
                     Nada de novo por aqui!
                   </q-item-section>
                 </q-item>
-                <q-item v-if="parseInt(notificacoesChat) > 0">
-                  <q-item-section avatar @click="() => $router.push({ name: 'chat-interno' })" style="cursor: pointer;">
-                    <q-avatar style="width: 60px; height: 60px" color="blue" text-color="white">
-                      {{ notificacoesChat }}
-                    </q-avatar>
-                  </q-item-section>
-                  <q-item-section @click="() => $router.push({ name: 'chat-interno' })" style="cursor: pointer;">
-                    Novas mensagens não lidas no chat interno!
-                  </q-item-section>
-                </q-item>
-                <q-item v-if="parseInt(notificacaoInternaNaoLida) > 0">
-                  <q-item-section avatar @click="() => $router.push({ name: 'chat-interno' })" style="cursor: pointer;">
-                    <q-avatar style="width: 60px; height: 60px" color="primary" text-color="white">
-                      {{ notificacaoInternaNaoLida }}
-                    </q-avatar>
-                  </q-item-section>
-                  <q-item-section @click="() => $router.push({ name: 'chat-interno' })" style="cursor: pointer;">
-                    Mensagens não lidas no chat interno!
-                  </q-item-section>
-                </q-item>
                 <q-item v-if="parseInt(notifications_p.count) > 0">
-                  <q-item-section avatar
-                    @click="() => $router.push({ name: 'chat-empty' })"
-                    style="cursor: pointer;">
-                    <q-avatar style="width: 60px; height: 60px"
+                  <q-item-section
+                    avatar
+                    @click="() => $router.push({ name: 'atendimento' })"
+                    style="cursor: pointer;"
+                  >
+                    <q-avatar
+                      style="width: 60px; height: 60px"
                       color="blue"
-                      text-color="white">
+                      text-color="white"
+                    >
                       {{ notifications_p.count }}
                     </q-avatar>
                   </q-item-section>
-                  <q-item-section @click="() => $router.push({ name: 'chat-empty' })"
-                    style="cursor: pointer;">
+                  <q-item-section
+                    @click="() => $router.push({ name: 'atendimento' })"
+                    style="cursor: pointer;"
+                  >
                     Clientes pendentes na fila
                   </q-item-section>
                 </q-item>
-                <q-item v-for="ticket in notifications.tickets"
+                <q-item
+                  v-for="ticket in notifications.tickets"
                   :key="ticket.id"
-                  style="border-bottom: 1px solid #ddd; margin: 5px;">
-                  <q-item-section avatar
+                  style="border-bottom: 1px solid #ddd; margin: 5px;"
+                >
+                  <q-item-section
+                    avatar
                     @click="abrirAtendimentoExistente(ticket.name, ticket)"
-                    style="cursor: pointer;">
+                    style="cursor: pointer;"
+                  >
                     <q-avatar style="width: 60px; height: 60px">
                       <img :src="ticket.profilePicUrl">
                     </q-avatar>
                   </q-item-section>
-                  <q-item-section @click="abrirAtendimentoExistente(ticket.name, ticket)"
-                    style="cursor: pointer;">
+                  <q-item-section
+                    @click="abrirAtendimentoExistente(ticket.name, ticket)"
+                    style="cursor: pointer;"
+                  >
                     <q-list>
                       <q-item style="text-align:center; font-size: 17px; font-weight: bold; min-height: 0">{{ ticket.name
                       }}</q-item>
@@ -111,37 +107,48 @@
                 </q-item>
               </q-list>
             </q-menu>
-            <q-tooltip >Notificações</q-tooltip>
+            <q-tooltip>Notificações</q-tooltip>
           </q-btn>
-          <q-avatar :color="usuario.status === 'offline' ? 'negative' : 'positive'"
+          <q-avatar
+            :color="usuario.status === 'offline' ? 'negative' : 'positive'"
             text-color="white"
             size="25px"
             :icon="usuario.status === 'offline' ? 'mdi-account-off' : 'mdi-account-check'"
             rounded
-            class="q-ml-lg">
+            class="q-ml-lg"
+          >
             <q-tooltip>
               {{ usuario.status === 'offline' ? 'Usuário Offiline' : 'Usuário Online' }}
             </q-tooltip>
           </q-avatar>
-          <q-btn round
+          <q-btn
+            round
             flat
-            class="bg-padrao text-bold q-mx-sm q-ml-lg">
+            class="bg-padrao text-bold q-mx-sm q-ml-lg"
+          >
             <q-avatar size="26px">
               {{ $iniciaisString(username) }}
             </q-avatar>
             <q-menu>
               <q-list style="min-width: 100px">
                 <q-item-label header> Olá! <b> {{ username }} </b> </q-item-label>
-                <cStatusUsuario @update:usuario="atualizarUsuario"
-                  :usuario="usuario" />
-                <q-item clickable
+
+                <cStatusUsuario
+                  @update:usuario="atualizarUsuario"
+                  :usuario="usuario"
+                />
+                <q-item
+                  clickable
                   v-close-popup
-                  @click="abrirModalUsuario">
+                  @click="abrirModalUsuario"
+                >
                   <q-item-section>Perfil</q-item-section>
                 </q-item>
-                <q-item clickable
+                <q-item
+                  clickable
                   v-close-popup
-                  @click="efetuarLogout">
+                  @click="efetuarLogout"
+                >
                   <q-item-section>Sair</q-item-section>
                 </q-item>
                 <q-separator />
@@ -160,32 +167,47 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered :mini="miniState" @mouseover="miniState = false"
-      v-if="showMenu" @mouseout="miniState = true" mini-to-overlay content-class="bg-white text-grey-9">
+    <q-drawer
+      v-model="leftDrawerOpen"
+      show-if-above
+      bordered
+      :mini="miniState"
+      @mouseover="miniState = false"
+      @mouseout="miniState = true"
+      mini-to-overlay
+      content-class="bg-white text-grey-9"
+    >
       <q-scroll-area class="fit">
-        <q-list padding :key="userProfile">
-          <!-- <q-item-label
-            header
-            class="text-grey-8"
-          >
-            Menu
-          </q-item-label> -->
-          <EssentialLink v-for="item in menuData" :key="item.title" v-bind="item" />
+        <q-list
+          padding
+          :key="userProfile"
+        >
+          <EssentialLink
+            v-for="item in menuData"
+            :key="item.title"
+            v-bind="item"
+          />
           <div v-if="userProfile === 'admin'">
             <q-separator spaced />
             <div class="q-mb-lg"></div>
-            <!-- <q-item-label header>Administração</q-item-label> -->
             <template v-for="item in menuDataAdmin">
-              <EssentialLink v-if="exibirMenuBeta(item) && validaTelaAdmin(item)" :key="item.title" v-bind="item" />
+              <EssentialLink
+                v-if="exibirMenuBeta(item)"
+                :key="item.title"
+                v-bind="item"
+              />
             </template>
           </div>
 
         </q-list>
       </q-scroll-area>
-      <div class="absolute-bottom text-center row justify-start"
+      <div
+        class="absolute-bottom text-center row justify-start"
         :class="{ 'bg-grey-3': $q.dark.isActive }"
-        style="height: 40px">
-        <q-toggle size="xl"
+        style="height: 40px"
+      >
+        <q-toggle
+          size="xl"
           keep-color
           dense
           class="text-bold q-ml-xs"
@@ -194,7 +216,8 @@
           :color="$q.dark.isActive ? 'grey-3' : 'black'"
           checked-icon="mdi-white-balance-sunny"
           unchecked-icon="mdi-weather-sunny"
-          @input="$setConfigsUsuario({ isDark: !$q.dark.isActive })">
+          @input="$setConfigsUsuario({ isDark: !$q.dark.isActive })"
+        >
           <q-tooltip content-class="text-body1 hide-scrollbar">
             {{ $q.dark.isActive ? 'Desativar' : 'Ativar' }} Modo Escuro (Dark Mode)
           </q-tooltip>
@@ -203,29 +226,30 @@
     </q-drawer>
 
     <q-page-container>
-        <informative />
       <q-page class="q-pa-xs">
         <router-view />
       </q-page>
     </q-page-container>
     <audio ref="audioNotification">
-      <source :src="alertSound"
-        type="audio/mp3">
+      <source
+        :src="alertSound"
+        type="audio/mp3"
+      >
     </audio>
-    <ModalUsuario :isProfile="true"
+    <ModalUsuario
+      :isProfile="true"
       :modalUsuario.sync="modalUsuario"
-      :usuarioEdicao.sync="usuario" />
+      :usuarioEdicao.sync="usuario"
+    />
   </q-layout>
 </template>
 
 <script>
-// const userId = +localStorage.getItem('userId')
 import cSystemVersion from '../components/cSystemVersion.vue'
 import { ListarWhatsapps } from 'src/service/sessoesWhatsapp'
 import EssentialLink from 'components/EssentialLink.vue'
 import socketInitial from './socketInitial'
 import alertSound from 'src/assets/sound.mp3'
-import alertInterno from 'src/assets/chatInterno.mp3'
 import { format } from 'date-fns'
 const username = localStorage.getItem('username')
 import ModalUsuario from 'src/pages/usuarios/ModalUsuario'
@@ -233,11 +257,9 @@ import { mapGetters } from 'vuex'
 import { ListarConfiguracoes } from 'src/service/configuracoes'
 import { RealizarLogout } from 'src/service/login'
 import cStatusUsuario from '../components/cStatusUsuario.vue'
-import vencimento from '../components/vencimento.vue'
-import informative from '../components/informative.vue'
 import { socketIO } from 'src/utils/socket'
 import { ConsultarTickets } from 'src/service/tickets'
-import { listCountUnreadMessage } from 'src/service/chatInterno'
+
 const socket = socketIO()
 
 const objMenu = [
@@ -251,7 +273,7 @@ const objMenu = [
   {
     title: 'Atendimentos',
     caption: 'Lista de atendimentos',
-    icon: 'mdi-whatsapp',
+    icon: 'mdi-forum-outline',
     routeName: 'atendimento'
   },
   {
@@ -259,42 +281,10 @@ const objMenu = [
     caption: 'Lista de contatos',
     icon: 'mdi-card-account-mail',
     routeName: 'contatos'
-  },
-  {
-    title: 'Chat Interno',
-    caption: 'Chat Interno',
-    icon: 'mdi-forum-outline',
-    routeName: 'chat-interno'
-  },
-  {
-    title: 'Ajuda',
-    caption: 'Ajuda',
-    icon: 'mdi-help',
-    routeName: 'ajuda'
   }
 ]
 
 const objMenuAdmin = [
-  {
-    title: 'Empresas SaaS',
-    caption: 'Lista de empresas',
-    icon: 'mdi-office-building',
-    routeName: 'empresas',
-    submenu: [
-      {
-        title: 'Subitem 1',
-        caption: 'Descrição do Subitem 1',
-        icon: 'mdi-office-building',
-        routeName: 'empresas'
-      },
-      {
-        title: 'Subitem 2',
-        caption: 'Descrição do Subitem 2',
-        icon: 'mdi-office-building',
-        routeName: 'empresas'
-      }
-    ]
-  },
   {
     title: 'Canais',
     caption: 'Canais de Comunicação',
@@ -320,7 +310,7 @@ const objMenuAdmin = [
     routeName: 'usuarios'
   },
   {
-    title: 'Filas | Grupos',
+    title: 'Filas',
     caption: 'Cadastro de Filas',
     icon: 'mdi-arrow-decision-outline',
     routeName: 'filas'
@@ -356,31 +346,23 @@ const objMenuAdmin = [
     routeName: 'configuracoes'
   },
   {
-    title: 'Financeiro',
-    caption: 'Financeiro',
-    icon: 'mdi-cash-multiple',
-    routeName: 'financeiro'
-  },
-  {
     title: 'Campanha',
     caption: 'Campanhas de envio',
     icon: 'mdi-message-bookmark-outline',
     routeName: 'campanhas'
-    // isBeta: true
   },
   {
     title: 'API',
     caption: 'Integração sistemas externos',
     icon: 'mdi-call-split',
     routeName: 'api-service'
-    // isBeta: true
   }
 ]
 
 export default {
   name: 'MainLayout',
   mixins: [socketInitial],
-  components: { EssentialLink, ModalUsuario, cStatusUsuario, cSystemVersion, vencimento, informative },
+  components: { EssentialLink, ModalUsuario, cStatusUsuario, cSystemVersion },
   data () {
     return {
       username,
@@ -390,17 +372,15 @@ export default {
       modalUsuario: false,
       usuario: {},
       alertSound,
-      alertInterno,
       leftDrawerOpen: false,
       menuData: objMenu,
       menuDataAdmin: objMenuAdmin,
       countTickets: 0,
-      ticketsList: [],
-      notificacaoInternaNaoLida: ''
+      ticketsList: []
     }
   },
   computed: {
-    ...mapGetters(['notifications', 'notifications_p', 'whatsapps', 'showMenu', 'chatFocado', 'notificacaoChatInterno', 'notificacoesChat', 'notificacaoTicket']),
+    ...mapGetters(['notifications', 'notifications_p', 'whatsapps']),
     cProblemaConexao () {
       const idx = this.whatsapps.findIndex(w =>
         ['PAIRING', 'TIMEOUT', 'DISCONNECTED'].includes(w.status)
@@ -432,80 +412,43 @@ export default {
       return objMenu
     }
   },
-  watch: {
-    notificacaoChatInterno: {
-      handler() {
-        if (this.$router.currentRoute.fullPath.indexOf('atendimento-Interno') < 0 || !this.chatFocado.id || this.chatFocado.id !== this.notificacaoChatInterno.senderId) {
-          this.$store.commit('LISTA_NOTIFICACOES_CHAT_INTERNO', { action: 'update', data: 1 })
-          this.listarMensagens()
-          const audio = new Audio(alertInterno)
-          audio.play()
-        }
-      }
-    },
-    notificacaoTicket: {
-      handler() {
-        this.$nextTick(() => {
-          this.$refs.audioNotification.play()
-        })
-      }
-    }
-  },
   methods: {
-    async listarMensagens() {
-      try {
-        const { data } = await listCountUnreadMessage(this.usuario.userId)
-        this.notificacaoInternaNaoLida = data.count
-      } catch (e) {
-
-      }
-    },
-    reloadPage() {
-      window.location.reload()
-    },
-    exibirMenuBeta(itemMenu) {
+    exibirMenuBeta (itemMenu) {
       if (!itemMenu?.isBeta) return true
       for (const domain of this.domainExperimentalsMenus) {
         if (this.usuario.email.indexOf(domain) !== -1) return true
       }
       return false
     },
-    validaTelaAdmin(itemMenu) {
-      const user = JSON.parse(localStorage.getItem('usuario'))
-      if (itemMenu.routeName === 'empresas' && user.tenantId != 1) return false
-      return true
-    },
-    async listarWhatsapps() {
+    async listarWhatsapps () {
       const { data } = await ListarWhatsapps()
       this.$store.commit('LOAD_WHATSAPPS', data)
     },
-    handlerNotifications(data) {
-      const { body, contact, ticket } = data
-      console.log(data)
-      if ('Notification' in window && Notification.permission === 'granted') {
-        const options = {
-          body: `${body} - ${format(new Date(), 'HH:mm')}`,
-          icon: contact.profilePicUrl,
-          tag: ticket.id,
-          renotify: true
-        }
+    handlerNotifications (data) {
+      const { message, contact, ticket } = data
 
-        const notification = new Notification(
-          `Mensagem de ${contact.name}`,
-          options
-        )
-
-        notification.onclick = e => {
-          e.preventDefault()
-          window.focus()
-          this.$store.dispatch('AbrirChatMensagens', ticket)
-          this.$router.push({ name: 'atendimento' })
-        }
-
-        this.$nextTick(() => {
-          this.$refs.audioNotification.play()
-        })
+      const options = {
+        body: `${message.body} - ${format(new Date(), 'HH:mm')}`,
+        icon: contact.profilePicUrl,
+        tag: ticket.id,
+        renotify: true
       }
+
+      const notification = new Notification(
+        `Mensagem de ${contact.name}`,
+        options
+      )
+
+      notification.onclick = e => {
+        e.preventDefault()
+        window.focus()
+        this.$store.dispatch('AbrirChatMensagens', ticket)
+        this.$router.push({ name: 'atendimento' })
+      }
+      this.$nextTick(() => {
+        // utilizar refs do layout
+        this.$refs.audioNotification.play()
+      })
     },
     async abrirModalUsuario () {
       this.modalUsuario = true
@@ -555,19 +498,11 @@ export default {
         withUnreadMessages: true,
         isNotAssignedUser: false,
         includeNotQueueDefined: true
-        // date: new Date(),
       }
       try {
         const { data } = await ConsultarTickets(params)
         this.countTickets = data.count // count total de tickets no status
-        // this.ticketsList = data.tickets
-        // console.log(data)
         this.$store.commit('UPDATE_NOTIFICATIONS', data)
-        setTimeout(() => {
-          this.$store.commit('UPDATE_NOTIFICATIONS', data)
-        }, 500)
-        // this.$store.commit('SET_HAS_MORE', data.hasMore)
-        // console.log(this.notifications)
       } catch (err) {
         this.$notificarErro('Algum problema', err)
         console.error(err)
@@ -582,19 +517,11 @@ export default {
         withUnreadMessages: false,
         isNotAssignedUser: false,
         includeNotQueueDefined: true
-        // date: new Date(),
       }
       try {
         const { data } = await ConsultarTickets(params2)
         this.countTickets = data.count // count total de tickets no status
-        // this.ticketsList = data.tickets
-        // console.log(data)
         this.$store.commit('UPDATE_NOTIFICATIONS_P', data)
-        setTimeout(() => {
-          this.$store.commit('UPDATE_NOTIFICATIONS_P', data)
-        }, 500)
-        // this.$store.commit('SET_HAS_MORE', data.hasMore)
-        // console.log(this.notifications)
       } catch (err) {
         this.$notificarErro('Algum problema', err)
         console.error(err)
@@ -641,23 +568,9 @@ export default {
     await this.listarWhatsapps()
     await this.listarConfiguracoes()
     await this.consultarTickets()
-    await this.listarMensagens()
-    if ('Notification' in window) {
-      if (Notification.permission !== 'granted') {
-        await Notification.requestPermission()
-      }
-
-      this.usuario = JSON.parse(localStorage.getItem('usuario'))
-      this.userProfile = localStorage.getItem('profile')
-
-      await this.conectarSocket(this.usuario)
-
-      this.atualizarUsuario()
-      await this.listarWhatsapps()
-      await this.listarConfiguracoes()
-      await this.consultarTickets()
-
-      this.socket.on('chat:update', this.handlerNotifications)
+    if (!('Notification' in window)) {
+    } else {
+      Notification.requestPermission()
     }
     this.usuario = JSON.parse(localStorage.getItem('usuario'))
     this.userProfile = localStorage.getItem('profile')

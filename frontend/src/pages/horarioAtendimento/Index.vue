@@ -1,5 +1,5 @@
 <template>
-  <div v-if="userProfile === 'admin'">
+  <div>
     <q-card
       class="q-ma-sm "
       square
@@ -25,7 +25,8 @@
         </q-icon>
 
         <q-btn
-          color="primary"
+          rounded
+          color="positive"
           label="Salvar"
           class="float-right"
           @click="salvarHorariosAtendimento"
@@ -61,6 +62,7 @@
                   <q-input
                     :disable="dia.type !== 'H'"
                     dense
+                    rounded
                     outlined
                     class="col-grow"
                     error-message="Obrigatório"
@@ -72,6 +74,7 @@
                   <q-input
                     :disable="dia.type !== 'H'"
                     dense
+                    rounded
                     outlined
                     class="col-grow"
                     error-message="Obrigatório"
@@ -84,6 +87,7 @@
                   <q-input
                     :disable="dia.type !== 'H'"
                     dense
+                    rounded
                     outlined
                     class="col-grow"
                     error-message="Obrigatório"
@@ -96,6 +100,7 @@
                     :disable="dia.type !== 'H'"
                     dense
                     outlined
+                    rounded
                     class="col-grow"
                     error-message="Obrigatório"
                     hide-underline
@@ -109,16 +114,13 @@
         </div>
       </q-card-section>
     </q-card>
-    <q-card
-      square
-      bordered
-      class="q-ma-sm full-full-height"
-    >
+    <q-card class="q-ma-sm q-mt-md full-full-height">
       <div class="text-h6 q-pa-sm q-ma-sm">
         Mensagem de Ausência
         <q-btn
           color="positive"
           label="Salvar"
+          rounded
           class="float-right"
           @click="salvarMensagemAusencia"
         />
@@ -153,33 +155,12 @@
                 />
               </q-menu>
             </q-btn>
-            <q-btn round
-            flat
-            dense>
-            <q-icon size="2em"
-              name="mdi-variable" />
-            <q-tooltip>
-              Variáveis
-            </q-tooltip>
-            <q-menu touch-position>
-              <q-list dense
-                style="min-width: 100px">
-                <q-item v-for="variavel in variaveis"
-                  :key="variavel.label"
-                  clickable
-                  @click="onInsertSelectVariable(variavel.value)"
-                  v-close-popup>
-                  <q-item-section>{{ variavel.label }}</q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
-          </q-btn>
           </div>
           <div class="col-xs-8 col-sm-10 col-md-11 q-pl-sm">
             <textarea
               ref="inputEnvioMensagem"
               style="min-height: 9vh; max-height: 9vh;"
-              class="q-pa-sm bg-white full-width"
+              class="q-pa-sm bg-white rounded-all full-width"
               placeholder="Digite a mensagem"
               autogrow
               dense
@@ -202,15 +183,10 @@ export default {
   components: { VEmojiPicker },
   data () {
     return {
-      userProfile: 'user',
       optType: [
         { value: 'O', label: 'Aberto' },
         { value: 'C', label: 'Fechado' },
         { value: 'H', label: 'Horário' }
-      ],
-      variaveis: [
-        { label: 'Nome', value: '{{name}}' },
-        { label: 'Saudação', value: '{{greeting}}' }
       ],
       businessHours: [
         { day: 0, label: 'Domingo', type: 'O', hr1: '08:00', hr2: '12:00', hr3: '14:00', hr4: '18:00' },
@@ -225,27 +201,6 @@ export default {
     }
   },
   methods: {
-    onInsertSelectVariable (variable) {
-      const self = this
-      var tArea = this.$refs.inputEnvioMensagem
-      // get cursor's position:
-      var startPos = tArea.selectionStart,
-        endPos = tArea.selectionEnd,
-        cursorPos = startPos,
-        tmpStr = tArea.value
-      // filter:
-      if (!variable) {
-        return
-      }
-      // insert:
-      self.txtContent = this.messageBusinessHours
-      self.txtContent = tmpStr.substring(0, startPos) + variable + tmpStr.substring(endPos, tmpStr.length)
-      this.messageBusinessHours = self.txtContent
-      // move cursor:
-      setTimeout(() => {
-        tArea.selectionStart = tArea.selectionEnd = cursorPos + 1
-      }, 10)
-    },
     onInsertSelectEmoji (emoji) {
       const self = this
       var tArea = this.$refs.inputEnvioMensagem
@@ -284,7 +239,6 @@ export default {
     }
   },
   mounted () {
-    this.userProfile = localStorage.getItem('profile')
     this.listarMensagemHorariosAtendimento()
   }
 }

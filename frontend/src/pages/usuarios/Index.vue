@@ -1,5 +1,5 @@
 <template>
-  <div v-if="userProfile === 'admin'">
+  <div>
     <q-table
       class="my-sticky-dynamic q-ma-lg"
       title="Usuarios"
@@ -13,7 +13,8 @@
       <template v-slot:top-right>
         <q-input
           style="width: 300px"
-          filled
+          outlined
+          rounded
           dense
           class="col-grow"
           debounce="500"
@@ -26,7 +27,9 @@
             <q-icon name="search" />
           </template>
         </q-input>
+        <q-space />
         <q-btn
+          rounded
           class="q-ml-md col"
           :class="{
             'q-ml-none q-mt-md q-mr-md': $q.screen.width < 500
@@ -93,7 +96,6 @@ export default {
   components: { ModalUsuario, ModalFilaUsuario },
   data () {
     return {
-      userProfile: 'user',
       usuarios: [],
       usuarioSelecionado: {},
       modalFilaUsuario: false,
@@ -240,7 +242,6 @@ export default {
     }
   },
   async mounted () {
-    this.userProfile = localStorage.getItem('profile')
     await this.listarFilas()
     await this.listarUsuarios()
   }

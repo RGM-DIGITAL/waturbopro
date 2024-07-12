@@ -2,24 +2,62 @@
   <div class="q-pa-sm">
     <q-card class="q-my-md">
       <q-card-section class="row justify-between items-center">
-        <div class="col-xs-12 col-md-3 text-h4 text-bold text-center text-md-left">
-          Painel de Controle
-        </div>
-        <div class="col-xs-12 col-md-9 justify-end flex q-gutter-sm text-center text-md-right q-my-md rdsPainelDate">
-          <div class="q-mb-sm">
-            <q-datetime-picker style="width: 200px" dense hide-bottom-space outlined stack-label bottom-slots
-              label="Data/Hora Agendamento" mode="date" color="primary" format24h v-model="params.startDate" />
-          </div>
-          <div class="q-mb-sm">
-            <q-datetime-picker style="width: 200px" dense hide-bottom-space outlined stack-label bottom-slots
-              label="Data/Hora Agendamento" mode="date" color="primary" format24h v-model="params.endDate" />
-          </div>
-          <div class="q-mb-sm">
-            <q-select style="width: 300px" dense outlined hide-bottom-space emit-value map-options multiple options-dense
-              use-chips label="SETORES" color="primary" v-model="params.queuesIds" :options="filas" :input-debounce="700"
-              option-value="id" option-label="queue" input-style="width: 280px; max-width: 280px;" />
-          </div>
-          <q-btn class="bg-padrao q-mb-sm" flat color="primary" icon="refresh" label="Gerar" @click="getDashData" />
+        <div class="col-12 justify-center flex q-gutter-sm">
+          <q-datetime-picker
+            style="width: 200px"
+            dense
+            rounded
+            hide-bottom-space
+            outlined
+            stack-label
+            bottom-slots
+            label="Data/Hora Agendamento"
+            mode="date"
+            color="primary"
+            format24h
+            v-model="params.startDate"
+          />
+          <q-datetime-picker
+            style="width: 200px"
+            dense
+            rounded
+            hide-bottom-space
+            outlined
+            stack-label
+            bottom-slots
+            label="Data/Hora Agendamento"
+            mode="date"
+            color="primary"
+            format24h
+            v-model="params.endDate"
+          />
+          <q-select
+            style="width: 300px"
+            dense
+            rounded
+            outlined
+            hide-bottom-space
+            emit-value
+            map-options
+            multiple
+            options-dense
+            use-chips
+            label="Filas"
+            color="primary"
+            v-model="params.queuesIds"
+            :options="filas"
+            :input-debounce="700"
+            option-value="id"
+            option-label="queue"
+            input-style="width: 280px; max-width: 280px;"
+          />
+          <q-btn
+            rounded
+            color="primary"
+            icon="refresh"
+            label="Atualizar"
+            @click="getDashData"
+          />
         </div>
 
       </q-card-section>
@@ -28,137 +66,153 @@
       <q-card-section class="q-pa-md">
         <div class="row q-gutter-md justify-center">
           <div class="col-xs-12 col-sm-shrink">
-            <q-card flat bordered class="my-card full-height"
-              style="min-width: 200px; background-color: #ff2a00; color: white">
-              <q-card-section class="text-center">
-                <div class="row items-center">
-                  <div class="col">
-                    <p class="text-h4 text-bold text-center text-branco">
-                      {{ ticketsAndTimes.qtd_total_atendimentos }}
-                    </p>
-                    <p class="text-caption text-branco">Total Atendimentos</p>
-                  </div>
-                  <div class="col">
-                    <q-icon name="mdi-account-multiple" size="lg" color="white" class="text-white" />
-                  </div>
-                </div>
+            <q-card
+              flat
+              bordered
+              class="my-card full-height"
+              style="min-width: 200px"
+            >
+              <q-card-section class="text-center ">
+                <p class="text-h4 text-bold text-center"> {{ ticketsAndTimes.qtd_total_atendimentos }} </p>
+                Total Atendimentos
               </q-card-section>
             </q-card>
           </div>
           <div class="col-xs-12 col-sm-shrink">
-            <q-card flat bordered class="my-card full-height"
-              style="min-width: 200px; background-color: #fec107; color: white">
+            <q-card
+              flat
+              bordered
+              class="my-card full-height"
+              style="min-width: 200px"
+            >
               <q-card-section class="text-center">
-                <div class="row items-center">
-                  <div class="col">
-                    <p class="text-h4 text-bold text-center text-branco">
-                      {{ ticketsAndTimes.qtd_demanda_ativa }}
-                    </p>
-                    <p class="text-caption text-branco">Ativo</p>
-                  </div>
-                  <div class="col">
-                    <q-icon name="mdi-account-check" size="lg" color="white" class="text-white" />
-                  </div>
-                </div>
+                <p class="text-h4 text-bold text-center"> {{ ticketsAndTimes.qtd_demanda_ativa }} </p>
+                Ativo
               </q-card-section>
             </q-card>
           </div>
           <div class="col-xs-12 col-sm-shrink">
-            <q-card flat bordered class="my-card full-height"
-              style="min-width: 200px; background-color: #01c853; color: white">
+            <q-card
+              flat
+              bordered
+              class="my-card full-height"
+              style="min-width: 200px"
+            >
               <q-card-section class="text-center">
-                <div class="row items-center">
-                  <div class="col">
-                    <p class="text-h4 text-bold text-center text-branco">
-                      {{ ticketsAndTimes.qtd_demanda_receptiva }}
-                    </p>
-                    <p class="text-caption text-branco">Receptivo</p>
-                  </div>
-                  <div class="col">
-                    <q-icon name="mdi-phone-incoming" size="lg" color="white" class="text-white" />
-                  </div>
-                </div>
+                <p class="text-h4 text-bold text-center"> {{ ticketsAndTimes.qtd_demanda_receptiva }} </p>
+                Receptivo
               </q-card-section>
             </q-card>
           </div>
           <div class="col-xs-12 col-sm-shrink">
-            <q-card flat bordered class="my-card full-height"
-              style="min-width: 200px; background-color: #2879ff; color: white">
+            <q-card
+              flat
+              bordered
+              class="my-card full-height"
+              style="min-width: 200px"
+            >
               <q-card-section class="text-center">
-                <div class="row items-center">
-                  <div class="col">
-                    <p class="text-h4 text-bold text-center text-branco">
-                      {{ ticketsAndTimes.new_contacts }}
-                    </p>
-                    <p class="text-caption text-branco">Novos Contatos</p>
-                  </div>
-                  <div class="col">
-                    <q-icon name="mdi-account-plus" size="lg" color="white" class="text-white" />
-                  </div>
-                </div>
+                <p class="text-h4 text-bold text-center"> {{ ticketsAndTimes.new_contacts }} </p>
+                Novos Contatos
               </q-card-section>
             </q-card>
           </div>
           <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2">
-            <q-card flat bordered class="my-card full-height" style="background-color: #ff2a00; color: white">
+            <q-card
+              flat
+              bordered
+              class="my-card full-height"
+            >
               <q-card-section class="text-center">
-                <p class="text-h5 text-bold text-center">
-                  <q-icon name="mdi-clock-outline" size="lg" color="white" class="text-white" />
-                  {{ cTmaFormat }}
-                </p>
-                Tempo Médio de Atendimento (TMA)
+                <p class="text-h5 text-bold text-center"> {{ cTmaFormat }} </p>
+                Tempo Médio Atendimento (TMA)
               </q-card-section>
             </q-card>
           </div>
           <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2">
-            <q-card flat bordered class="my-card full-height" style="background-color: #2879ff; color: white">
+            <q-card
+              flat
+              bordered
+              class="my-card full-height"
+            >
               <q-card-section class="text-center">
-                <p class="text-h5 text-bold text-center">
-                  <q-icon name="mdi-timer-sand" size="lg" color="white" class="text-white" />
-                  {{ cTmeFormat }}
-                </p>
+                <p class="text-h5 text-bold text-center"> {{ cTmeFormat }} </p>
                 Tempo Médio 1º Resposta
               </q-card-section>
             </q-card>
           </div>
         </div>
+
       </q-card-section>
     </q-card>
+
     <div class="row q-col-gutter-md">
       <div class="col-xs-12 col-sm-6">
         <q-card>
           <q-card-section class="q-pa-md">
-            <ApexChart ref="ChartTicketsChannels" type="donut" height="300" width="100%" :options="ticketsChannelsOptions"
-              :series="ticketsChannelsOptions.series" />
+            <ApexChart
+              ref="ChartTicketsChannels"
+              type="donut"
+              height="300"
+              width="100%"
+              :options="ticketsChannelsOptions"
+              :series="ticketsChannelsOptions.series"
+            />
           </q-card-section>
         </q-card>
       </div>
       <div class="col-xs-12 col-sm-6">
         <q-card>
           <q-card-section class="q-pa-md">
-            <ApexChart ref="ChartTicketsQueue" type="donut" height="300" width="100%" :options="ticketsQueueOptions"
-              :series="ticketsQueueOptions.series" />
+            <ApexChart
+              ref="ChartTicketsQueue"
+              type="donut"
+              height="300"
+              width="100%"
+              :options="ticketsQueueOptions"
+              :series="ticketsQueueOptions.series"
+            />
           </q-card-section>
         </q-card>
       </div>
     </div>
     <q-card class="q-my-md">
       <q-card-section>
-        <ApexChart ref="ChartTicketsEvolutionChannels" type="bar" height="300" width="100%"
-          :options="ticketsEvolutionChannelsOptions" :series="ticketsEvolutionChannelsOptions.series" />
+        <ApexChart
+          ref="ChartTicketsEvolutionChannels"
+          type="bar"
+          height="300"
+          width="100%"
+          :options="ticketsEvolutionChannelsOptions"
+          :series="ticketsEvolutionChannelsOptions.series"
+        />
       </q-card-section>
     </q-card>
     <q-card class="q-my-md">
       <q-card-section class="q-pa-md">
-        <ApexChart ref="ChartTicketsEvolutionByPeriod" type="line" height="300" :options="ticketsEvolutionByPeriodOptions"
-          :series="ticketsEvolutionByPeriodOptions.series" />
+        <ApexChart
+          ref="ChartTicketsEvolutionByPeriod"
+          type="line"
+          height="300"
+          :options="ticketsEvolutionByPeriodOptions"
+          :series="ticketsEvolutionByPeriodOptions.series"
+        />
       </q-card-section>
     </q-card>
 
     <q-card class="q-my-md q-pa-sm">
       <q-card-section class="q-pa-md">
-        <q-table title="Desempenho da Equipe" :data="ticketsPerUsersDetail" :columns="TicketsPerUsersDetailColumn"
-          row-key="email" :pagination.sync="paginationTableUser" :rows-per-page-options="[0]" bordered flat hide-bottom>
+        <q-table
+          title="Performance Usuários"
+          :data="ticketsPerUsersDetail"
+          :columns="TicketsPerUsersDetailColumn"
+          row-key="email"
+          :pagination.sync="paginationTableUser"
+          :rows-per-page-options="[0]"
+          bordered
+          flat
+          hide-bottom
+        >
           <template v-slot:body-cell-name="props">
             <q-td :props="props">
               <div class="row col text-bold"> {{ props.row.name || 'Não informado' }} </div>
@@ -166,8 +220,11 @@
             </q-td>
           </template>
         </q-table>
+
       </q-card-section>
+
     </q-card>
+
   </div>
 </template>
 
@@ -184,18 +241,11 @@ import {
 } from 'src/service/estatisticas'
 import { subDays, format, formatDuration, differenceInDays } from 'date-fns'
 import ApexChart from 'vue-apexcharts'
-import { QIcon } from 'quasar'
 
 export default {
   name: 'IndexDashboard',
-  components: { ApexChart, QIcon },
-  props: {
-    showMenu: {
-      type: Boolean,
-      default: true
-    }
-  },
-  data() {
+  components: { ApexChart },
+  data () {
     return {
       confiWidth: {
         horizontal: false,
@@ -214,7 +264,7 @@ export default {
       filas: [],
       ticketsChannels: [],
       ticketsChannelsOptions: {
-        // colors: ['#00E396', '#ff2a00','#FEB019'],
+        // colors: ['#008FFB', '#00E396', '#FEB019'],
         animations: {
           enabled: true,
           easing: 'easeinout',
@@ -281,7 +331,7 @@ export default {
       },
       ticketsQueue: [],
       ticketsQueueOptions: {
-        colors: ['#008FFB', '#00E396', '#FEB019'],
+        // colors: ['#008FFB', '#00E396', '#FEB019'],
         animations: {
           enabled: true,
           easing: 'easeinout',
@@ -603,31 +653,31 @@ export default {
     }
   },
   watch: {
-    '$q.dark.isActive'() {
+    '$q.dark.isActive' () {
       // necessário para carregar os gráficos com a alterçaão do mode (dark/light)
       this.$router.go()
     },
-    '$q.screen.width'() {
+    '$q.screen.width' () {
       // necessário para carregar os gráficos com a alterçaão do mode (dark/light)
       this.setConfigWidth()
     }
   },
   computed: {
-    cTmaFormat() {
+    cTmaFormat () {
       const tma = this.ticketsAndTimes.tma || {}
       return formatDuration(tma) || ''
     },
-    cTmeFormat() {
+    cTmeFormat () {
       const tme = this.ticketsAndTimes.tme || {}
       return formatDuration(tme) || ''
     }
   },
   methods: {
-    async listarFilas() {
+    async listarFilas () {
       const { data } = await ListarFilas()
       this.filas = data
     },
-    setConfigWidth() {
+    setConfigWidth () {
       const diffDays = differenceInDays(new Date(this.params.endDate), new Date(this.params.startDate))
       if (diffDays > 30) {
         this.configWidth = { horizontal: true, width: 2200 }
@@ -636,7 +686,7 @@ export default {
         this.configWidth = { horizontal: true, width: actualWidth - (actualWidth < 768 ? 40 : 100) }
       }
     },
-    getDashTicketsAndTimes() {
+    getDashTicketsAndTimes () {
       GetDashTicketsAndTimes(this.params).then(res => {
         this.ticketsAndTimes = res.data[0]
       })
@@ -644,7 +694,7 @@ export default {
           console.error(err)
         })
     },
-    getDashTicketsQueue() {
+    getDashTicketsQueue () {
       GetDashTicketsQueue(this.params).then(res => {
         this.ticketsQueue = res.data
         const series = []
@@ -662,7 +712,7 @@ export default {
           console.error(err)
         })
     },
-    getDashTicketsChannels() {
+    getDashTicketsChannels () {
       GetDashTicketsChannels(this.params).then(res => {
         this.ticketsChannels = res.data
         const series = []
@@ -680,7 +730,7 @@ export default {
           console.error(err)
         })
     },
-    getDashTicketsEvolutionChannels() {
+    getDashTicketsEvolutionChannels () {
       GetDashTicketsEvolutionChannels(this.params)
         .then(res => {
           this.ticketsEvolutionChannels = res.data
@@ -711,7 +761,7 @@ export default {
           console.error(error)
         })
     },
-    getDashTicketsEvolutionByPeriod() {
+    getDashTicketsEvolutionByPeriod () {
       GetDashTicketsEvolutionByPeriod(this.params)
         .then(res => {
           this.ticketsEvolutionByPeriod = res.data
@@ -739,7 +789,7 @@ export default {
           console.error(error)
         })
     },
-    getDashTicketsPerUsersDetail() {
+    getDashTicketsPerUsersDetail () {
       GetDashTicketsPerUsersDetail(this.params)
         .then(res => {
           this.ticketsPerUsersDetail = res.data
@@ -748,7 +798,7 @@ export default {
           console.error(error)
         })
     },
-    getDashData() {
+    getDashData () {
       this.setConfigWidth()
       this.getDashTicketsAndTimes()
       this.getDashTicketsChannels()
@@ -759,8 +809,7 @@ export default {
     }
 
   },
-  beforeMount() {
-    this.$store.commit('UPDATE_SHOW_MENU', this.showMenu)
+  beforeMount () {
     const mode = this.$q.dark.isActive ? 'dark' : 'light'
     const theme = {
       mode,
@@ -778,7 +827,7 @@ export default {
     this.ticketsEvolutionChannelsOptions = { ...this.ticketsEvolutionChannelsOptions, theme }
     this.ticketsEvolutionByPeriodOptions = { ...this.ticketsEvolutionByPeriodOptions, theme }
   },
-  mounted() {
+  mounted () {
     this.listarFilas()
     this.getDashData()
   }
@@ -786,24 +835,7 @@ export default {
 </script>
 
 <style lang="scss" >
-.text-branco {
-  color: white;
-}
-
 .apexcharts-theme-dark svg {
   background: none !important;
-}
-
-.bg-vermelho {
-  background-color: #ff2a00;
-}
-
-.bg-amarelo {
-  background-color: #fec107;
-}
-
-.rdsPainelDate {
-  display: flex;
-  justify-content: space-around !important;
 }
 </style>

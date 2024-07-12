@@ -1,8 +1,7 @@
 <template>
-  <div v-if="userProfile === 'admin'">
+  <div>
     <q-table
       flat
-      bordered
       square
       hide-bottom
       class="my-sticky-dynamic q-ma-lg"
@@ -17,9 +16,9 @@
       <template v-slot:top-right>
         <q-btn
           class="q-mr-md"
-          color="primary"
+          color="black"
           icon="refresh"
-          outline
+          rounded
           @click="listarCampanhas"
         >
           <q-tooltip>
@@ -27,6 +26,7 @@
           </q-tooltip>
         </q-btn>
         <q-btn
+          rounded
           color="primary"
           label="Adicionar"
           @click="campanhaEdicao = {}; modalCampanha = true"
@@ -130,7 +130,6 @@ export default {
   },
   data () {
     return {
-      userProfile: 'user',
       campanhaEdicao: {},
       modalCampanha: false,
       campanhas: [],
@@ -278,7 +277,6 @@ export default {
     }
   },
   mounted () {
-    this.userProfile = localStorage.getItem('profile')
     this.listarCampanhas()
   }
 }

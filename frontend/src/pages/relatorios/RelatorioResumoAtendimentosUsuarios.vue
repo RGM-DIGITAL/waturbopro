@@ -1,17 +1,18 @@
 <template>
-  <div v-if="userProfile === 'admin'">
+  <div>
     <q-card bordered>
       <q-card-section>
         <div class="text-h6 q-px-sm"> Relatório Resumo Atendimentos Usuários </div>
       </q-card-section>
       <q-card-section class="q-pt-none">
-        <fieldset>
+        <fieldset class="rounded-all">
           <legend class="q-px-sm">Filtros (Data Atendimentos)</legend>
           <div class="row q-gutter-md items-end">
             <div class="col-grow">
               <label>Início</label>
               <DatePick
                 dense
+                rounded
                 v-model="pesquisa.startDate"
               />
             </div>
@@ -19,20 +20,23 @@
               <label>Final</label>
               <DatePick
                 dense
+                rounded
                 v-model="pesquisa.endDate"
               />
             </div>
             <div class="col-grow text-center">
               <q-btn
                 class="q-mr-sm"
-                color="info"
+                color="primary"
                 label="Gerar"
                 icon="refresh"
+                rounded
                 @click="gerarRelatorio"
               />
               <q-btn
                 class="q-mr-sm"
                 color="black"
+                rounded
                 icon="print"
                 label="Imprimir"
                 @click="printReport('tRelatorioResumoAtendimentosUsuarios')"
@@ -40,6 +44,7 @@
               <q-btn
                 color="warning"
                 label="Excel"
+                rounded
                 @click="exportTable('tRelatorioResumoAtendimentosUsuarios')"
               />
             </div>
@@ -159,7 +164,6 @@ export default {
   },
   data () {
     return {
-      userProfile: 'user',
       data: null,
       bl_sintetico: false,
       dadosResumo: [],
@@ -215,7 +219,6 @@ export default {
     }
   },
   async mounted () {
-    this.userProfile = localStorage.getItem('profile')
     this.gerarRelatorio()
   }
 }

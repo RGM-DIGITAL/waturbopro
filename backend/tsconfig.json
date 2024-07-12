@@ -1,18 +1,23 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "es6",
     "module": "commonjs",
-    "lib": ["es5", "es6", "dom"],
     "outDir": "./dist",
-    "strict": false,
+    "strict": true,
+    "noImplicitAny": false,
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "resolveJsonModule": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "rootDir": "./src",
+    "resolveJsonModule": true,
+    "useUnknownInCatchVariables": false
   },
-  "include": ["**/*"],
-  "exclude": ["**/dist/**/*.d.ts", "./*.js", "dist", "node_modules", "public"]
+  "exclude": [
+    "dist",
+    "public"
+  ]
 }

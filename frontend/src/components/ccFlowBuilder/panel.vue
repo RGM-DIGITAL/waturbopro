@@ -1,47 +1,57 @@
 <template>
-  <div v-if="easyFlowVisible"
+  <div
+    v-if="easyFlowVisible"
     :class="{
       'fullscreen bg-white': isFullScreen,
       'flowHeightDefault': !isFullScreen
-    }">
+    }"
+  >
     <q-toolbar class="text-grey-8 ">
       <q-toolbar-title>
         <div class="text-h6">{{ data.name }}</div>
       </q-toolbar-title>
-      <q-btn round
+      <q-btn
+        round
         flat
         icon="mdi-delete"
         @click="deleteElement"
-        :disabled="!this.activeElement.type || ['start', 'exception'].includes(this.activeElement.type)"></q-btn>
-      <q-separator inset
+        :disabled="!this.activeElement.type || ['start', 'exception'].includes(this.activeElement.type)"
+      ></q-btn>
+      <q-separator
+        inset
         spaced
-        vertical />
-      <!-- <q-btn
+        vertical
+      />
+
+      <q-btn
         round
         flat
-        icon="mdi-download"
-        @click="downloadData"
-      ></q-btn> -->
-      <q-btn round
-        flat
         :icon="isFullScreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"
-        @click="isFullScreen = !isFullScreen" />
+        @click="isFullScreen = !isFullScreen"
+      />
+
     </q-toolbar>
     <q-separator color="text-grey-3" />
-    <div class="q-mt-sm"
-      style="display: flex; height: calc(100% - 60px);">
-      <div id="efContainer"
+    <div
+      class="q-mt-sm"
+      style="display: flex; height: calc(100% - 60px);"
+    >
+      <div
+        id="efContainer"
         ref="efContainer"
         class="container"
-        v-flowDrag>
+        v-flowDrag
+      >
         <template v-for="node in data.nodeList">
-          <flow-node :id="node.id"
+          <flow-node
+            :id="node.id"
             :key="node.id"
             :node="node"
             :activeElement="activeElement"
             @changeNodeSite="changeNodeSite"
             @nodeRightMenu="nodeRightMenu"
-            @clickNode="clickNode">
+            @clickNode="clickNode"
+          >
           </flow-node>
         </template>
         <!-- Forçar área de construção -->
@@ -49,7 +59,8 @@
       </div>
       <!-- Configuração node -->
       <div style="width: 500px; border-left: 1px solid #dce3e8;">
-        <flow-node-form ref="nodeForm"
+        <flow-node-form
+          ref="nodeForm"
           @setLineLabel="setLineLabel"
           @repaintEverything="repaintEverything"
           :filas="cDataFlow.filas"
@@ -58,24 +69,27 @@
           @addNode="addNode"
           @deleteLine="deleteLine"
           @addNewLineCondition="addNewLineCondition"
-          @saveFlow="saveFlow">
+          @saveFlow="saveFlow"
+        >
         </flow-node-form>
       </div>
     </div>
     <!-- Visualização Resultado -->
-    <flow-info v-if="flowInfoVisible"
+    <flow-info
+      v-if="flowInfoVisible"
       ref="flowInfo"
-      :data="data"></flow-info>
-    <flow-help v-if="flowHelpVisible"
-      ref="flowHelp"></flow-help>
+      :data="data"
+    ></flow-info>
+    <flow-help
+      v-if="flowHelpVisible"
+      ref="flowHelp"
+    ></flow-help>
   </div>
 
 </template>
 
 <script>
 import draggable from 'vuedraggable'
-// import jsPlumb from './jsplumb.js'
-// 使用修改后的jsplumb
 import './jsplumb'
 import { easyFlowMixin } from './mixins'
 import flowNode from './node'
@@ -217,6 +231,36 @@ export default {
         })
         return false
       }
+      if (this.hasLine(from, to)) {
+        this.$q.notify({
+          type: 'negative',
+          progress: true,
+          position: 'top',
+          timeout: 2500,
+          message: 'Não é possível realizar loop entre os elementos.',
+          actions: [{
+            icon: 'close',
+            round: true,
+            color: 'white'
+          }]
+        })
+        return false
+      }
+      if (this.hashOppositeLine(from, to)) {
+        this.$q.notify({
+          type: 'negative',
+          progress: true,
+          position: 'top',
+          timeout: 2500,
+          message: 'Não é possível realizar loop entre os elementos.',
+          actions: [{
+            icon: 'close',
+            round: true,
+            color: 'white'
+          }]
+        })
+        return false
+      }
       this.$notificarSucesso('Conexão realizada.')
       return true
     },
@@ -226,6 +270,7 @@ export default {
         this.jsPlumb.setSuspendDrawing(false, true)
         this.loadEasyFlow()
         this.jsPlumb.bind('click', (conn, originalEvent) => {
+          this.activeElement.type = 'line'
           this.activeElement.sourceId = conn.sourceId
           this.activeElement.targetId = conn.targetId
           this.$refs.nodeForm.lineInit({

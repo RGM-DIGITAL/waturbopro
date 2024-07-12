@@ -3,23 +3,20 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    redirect: { name: 'home' },
+    redirect: { name: 'contatos' },
     children: [
-      { path: '', component: () => import('pages/dashboard/Index.vue') },
+      { path: '', component: () => import('pages/contatos/Index.vue') },
       { path: '/home', name: 'home-dashboard', component: () => import('pages/dashboard/Index.vue') },
       { path: '/painel-atendimentos', name: 'painel-atendimentos', component: () => import('pages/dashboard/DashTicketsFilas.vue') },
       // { path: '/ConsultarTicketsQueuesService', name: 'dashboard', component: () => import('pages/dashboard/Index.vue') },
       { path: '/sessoes', name: 'sessoes', component: () => import('pages/sessaoWhatsapp/Index.vue') },
       { path: '/contatos', name: 'contatos', component: () => import('pages/contatos/Index.vue') },
-      { path: '/ajuda', name: 'ajuda', component: () => import('pages/ajuda/Index.vue') },
-      { path: '/empresas', name: 'empresas', component: () => import('pages/empresas/Index.vue'), meta: { requiresAuth: true } },
       { path: '/usuarios', name: 'usuarios', component: () => import('pages/usuarios/Index.vue') },
       { path: '/auto-resposta', name: 'auto-resposta', component: () => import('pages/fluxoAutoResposta/Index.vue') },
       { path: '/mensagens-rapidas', name: 'mensagens-rapidas', component: () => import('pages/mensagensRapidas/Index.vue') },
       { path: '/filas', name: 'filas', component: () => import('pages/filas/Index.vue') },
       { path: '/configuracoes', name: 'configuracoes', component: () => import('pages/configuracoes/Index.vue') },
       { path: '/etiquetas', name: 'etiquetas', component: () => import('pages/etiquetas/Index.vue') },
-      { path: '/financeiro', name: 'financeiro', component: () => import('pages/financeiro/Index.vue') },
       { path: '/campanhas', name: 'campanhas', component: () => import('pages/campanhas/Index.vue') },
       { path: '/campanhas/:campanhaId', name: 'contatos-campanha', component: () => import('pages/campanhas/ContatosCampanha.vue') },
       { path: '/horario-atendimento', name: 'horarioAtendimento', component: () => import('pages/horarioAtendimento/Index.vue') },
@@ -67,7 +64,6 @@ const routes = [
       }
     ]
   },
-  { path: '/chat-interno', name: 'chat-interno', component: () => import('pages/chatInterno/index.vue') },
   {
     path: '/atendimento',
     name: 'atendimento',
@@ -104,13 +100,7 @@ const routes = [
   // but you can also remove it
   {
     path: '*',
-    name: '404',
     component: () => import('pages/Error404.vue')
-  },
-  {
-    path: '/signup',
-    name: 'signup',
-    component: () => import('pages/Signup.vue')
   },
   {
     path: '/login',

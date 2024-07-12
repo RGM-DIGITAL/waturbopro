@@ -8,8 +8,6 @@
       container
       view="lHr LpR lFr"
     >
-      <!-- view="lHr LpR lFr" -->
-      <!-- :behavior="!ticketFocado.id ? 'desktop' : 'default'" -->
       <q-drawer
         v-model="drawerTickets"
         @hide="drawerTickets = false"
@@ -21,44 +19,67 @@
         :width="$q.screen.lt.md ? $q.screen.width : 380"
         content-class="hide-scrollbar full-width"
       >
-        <!-- :behavior="$q.screen.lt.sm && (drawerTickets || !ticketFocado.id) ? 'desktop' : 'default'" -->
         <q-toolbar
-          class="q-pr-none q-gutter-xs full-width"
+          class="q-gutter-xs full-width"
           style="height: 64px"
         >
-          <q-btn flat class="bg-padrao btn-rounded" icon="mdi-home" @click="() => $router.push({ name: 'home-dashboard' })">
-            <q-tooltip content-class="bg-padrao text-grey-9 text-bold"> Retornar ao menu </q-tooltip>
-          </q-btn>
-          <q-btn flat class="bg-padrao btn-rounded" icon="mdi-forum-outline" @click="() => $router.push({ name: 'chat-interno' })">
-            <q-tooltip content-class="bg-padrao text-grey-9 text-bold"> Chat Interno </q-tooltip>
-            <q-badge v-if="this.notificacaoInternaNaoLida > 0"
-              color="red"
-              floating
-              class="badge-left"
-            > {{ this.notificacaoInternaNaoLida }}</q-badge>
-          </q-btn>
-
-          <q-btn flat class="bg-padrao btn-rounded" icon="refresh"
-            @click="reloadPage">
-            <q-tooltip content-class="bg-padrao text-grey-9 text-bold">
-              Atualizar Página
-            </q-tooltip>
-          </q-btn>
-
-          <q-space />
- <q-btn-dropdown no-caps flat class="bg-padrao text-bold btn-rounded" ripple>
+          <q-btn-dropdown
+            no-caps
+            color="black"
+            class="text-bold btn-rounded"
+            ripple
+          >
             <template v-slot:label>
-              <div :style="{ maxWidth: $q.screen.lt.sm ? '120px' : '' }" class="ellipsis">
-                {{ $iniciaisString(username) }}
+              <div
+                :style="{ maxWidth: $q.screen.lt.sm ? '120px' : '' }"
+                class="ellipsis"
+              >
+                {{ username }}
               </div>
             </template>
             <q-list style="min-width: 100px">
-              <q-item clickable v-close-popup @click="efetuarLogout">
+              <!-- <q-item
+                clickable
+                v-close-popup
+              >
+                <q-item-section>
+                  <q-toggle
+                    color="blue"
+                    :value="$q.dark.isActive"
+                    label="Modo escuro"
+                    @input="$setConfigsUsuario({isDark: !$q.dark.isActive})"
+                  />
+                </q-item-section>
+              </q-item> -->
+              <q-item
+                clickable
+                v-close-popup
+                @click="abrirModalUsuario"
+              >
+                <q-item-section>Perfil</q-item-section>
+              </q-item>
+              <q-item
+                clickable
+                v-close-popup
+                @click="efetuarLogout"
+              >
                 <q-item-section>Sair</q-item-section>
               </q-item>
               <q-separator />
+
             </q-list>
           </q-btn-dropdown>
+          <q-space />
+          <q-btn
+            color="black"
+            class="btn-rounded"
+            icon="mdi-home"
+            @click="() => $router.push({ name: 'home-dashboard' })"
+          >
+            <q-tooltip content-class="bg-padrao text-grey-9 text-bold">
+              Retornar ao menu
+            </q-tooltip>
+          </q-btn>
         </q-toolbar>
         <StatusWhatsapp
           v-if="false"
@@ -71,8 +92,7 @@
           <q-separator class="absolute-top" />
           <q-btn
             :icon="!cFiltroSelecionado ? 'mdi-filter-outline' : 'mdi-filter-plus'"
-            flat
-            class="bg-padrao btn-rounded "
+            class="btn-rounded "
             :color="cFiltroSelecionado ? 'deep-orange-9' : 'primary'"
           >
             <q-menu
@@ -100,7 +120,7 @@
                   <div v-if="!pesquisaTickets.showAll">
                     <q-select
                       :disable="pesquisaTickets.showAll"
-                      square
+                      rounded
                       dense
                       outlined
                       hide-bottom-space
@@ -195,9 +215,10 @@
                   />
                   <q-btn
                     class="float-right q-my-md"
-                    color="primary"
+                    color="negative"
                     label="Fechar"
                     push
+                    rounded
                     v-close-popup
                   />
                 </div>
@@ -222,8 +243,8 @@
             </template>
           </q-input>
           <q-btn
-            flat
-            class=" bg-padrao btn-rounded"
+            color="primary"
+            class="btn-rounded"
             icon="mdi-book-account-outline"
             @click="$q.screen.lt.md ? modalNovoTicket = true : $router.push({ name: 'chat-contatos' })"
           >
@@ -240,60 +261,12 @@
           @scroll="onScroll"
         >
           <!-- <q-separator /> -->
-          <div>
-            <div class="tab-container">
-              <q-tabs v-model="selectedTab" class="tab-scroll">
-                <q-tab name="open" v-if="openTickets.length > 0">
-                  Abertos
-                  <q-badge v-if="openTickets.length > 0" color="red" textColor="white">{{ openTickets.length }}</q-badge>
-                </q-tab>
-                <q-tab name="pending" v-if="pendingTickets.length > 0">
-                  Pendentes
-                  <q-badge v-if="pendingTickets.length > 0" color="red" textColor="white">{{ pendingTickets.length }}</q-badge>
-                </q-tab>
-                <q-tab name="closed" v-if="closedTickets.length > 0">
-                  Fechados
-                  <q-badge v-if="closedTickets.length > 0" color="red" textColor="white">{{ closedTickets.length }}</q-badge>
-                </q-tab>
-                <q-tab name="group" v-if="groupTickets.length > 0">
-                  Grupos
-                  <q-badge v-if="groupTickets.length > 0" color="red" textColor="white">{{ groupTickets.length }}</q-badge>
-                </q-tab>
-              </q-tabs>
-            </div>
-            <div v-if="selectedTab === 'open'">
-              <ItemTicket
-                v-for="(ticket, key) in openTickets"
-                :key="key"
-                :ticket="ticket"
-                :filas="filas"
-              />
-            </div>
-            <div v-if="selectedTab === 'pending'">
-              <ItemTicket
-                v-for="(ticket, key) in pendingTickets"
-                :key="key"
-                :ticket="ticket"
-                :filas="filas"
-              />
-            </div>
-            <div v-if="selectedTab === 'closed'">
-              <ItemTicket
-                v-for="(ticket, key) in closedTickets"
-                :key="key"
-                :ticket="ticket"
-                :filas="filas"
-              />
-            </div>
-            <div v-if="selectedTab === 'group'">
-              <ItemTicket
-                v-for="(ticket, key) in groupTickets"
-                :key="key"
-                :ticket="ticket"
-                :filas="filas"
-              />
-            </div>
-          </div>
+          <ItemTicket
+            v-for="(ticket, key) in tickets"
+            :key="key"
+            :ticket="ticket"
+            :filas="filas"
+          />
           <div v-if="loading">
             <div class="row justify-center q-my-md">
               <q-spinner
@@ -793,8 +766,6 @@ import { RealizarLogout } from 'src/service/login'
 import { ListarUsuarios } from 'src/service/user'
 import MensagemChat from './MensagemChat.vue'
 import { messagesLog } from '../../utils/constants'
-import alertInterno from 'src/assets/chatInterno.mp3'
-import { listCountUnreadMessage } from 'src/service/chatInterno'
 export default {
   name: 'IndexAtendimento',
   mixins: [mixinSockets, socketInitial],
@@ -813,10 +784,8 @@ export default {
       configuracoes: [],
       debounce,
       alertSound,
-      notificacaoSound: '',
       usuario,
       usuarios: [],
-      selectedTab: 'open',
       username,
       modalUsuario: false,
       toolbarSearch: true,
@@ -834,7 +803,7 @@ export default {
       pesquisaTickets: {
         searchParam: '',
         pageNumber: 1,
-        status: ['open', 'pending', 'closed'],
+        status: ['open', 'pending'],
         showAll: false,
         count: null,
         queuesIds: [],
@@ -848,31 +817,37 @@ export default {
       mensagensRapidas: [],
       modalEtiquestas: false,
       exibirModalLogs: false,
-      logsTicket: [],
-      notificacaoInternaNaoLida: ''
+      logsTicket: []
     }
   },
   watch: {
-    notificacaoChatInterno: {
-      handler() {
-        if (this.$router.currentRoute.fullPath.indexOf('atendimento-Interno') < 0 || !this.chatFocado.id || this.chatFocado.id !== this.notificacaoChatInterno.senderId) {
-          this.$store.commit('LISTA_NOTIFICACOES_CHAT_INTERNO', { action: 'update', data: 1 })
-          const audio = new Audio(alertInterno)
-          audio.play()
-        }
-        this.listarMensagens()
-      }
-    }
+    // pesquisaTickets: {
+    //   handler (v) {
+    //     this.$store.commit('SET_FILTER_PARAMS', extend(true, {}, this.pesquisaTickets))
+    //     localStorage.setItem('filtrosAtendimento', JSON.stringify(this.pesquisaTickets))
+    //   },
+    //   deep: true
+    //   // immediate: true
+    // }
   },
   computed: {
     ...mapGetters([
       'tickets',
       'ticketFocado',
       'hasMore',
-      'whatsapps',
-      'notificacaoChatInterno'
+      'whatsapps'
     ]),
     cUserQueues () {
+      // try {
+      //   const filasUsuario = JSON.parse(UserQueues).map(q => {
+      //     if (q.isActive) {
+      //       return q.id
+      //     }
+      //   })
+      //   return this.filas.filter(f => filasUsuario.includes(f.id)) || []
+      // } catch (error) {
+      //   return []
+      // }
       return UserQueues
     },
     style () {
@@ -895,33 +870,9 @@ export default {
     },
     cIsExtraInfo () {
       return this.ticketFocado?.contact?.extraInfo?.length > 0
-    },
-    openTickets () {
-      console.log(this.tickets)
-      return this.tickets.filter(ticket => ticket.status === 'open' && !ticket.isGroup)
-    },
-    pendingTickets () {
-      return this.tickets.filter(ticket => ticket.status === 'pending' && !ticket.isGroup)
-    },
-    closedTickets () {
-      return this.tickets.filter(ticket => ticket.status === 'closed' && !ticket.isGroup)
-    },
-    groupTickets () {
-      return this.tickets.filter(ticket => ticket.isGroup)
     }
   },
   methods: {
-    async listarMensagens() {
-      try {
-        const { data } = await listCountUnreadMessage(this.usuario.userId)
-        this.notificacaoInternaNaoLida = data.count
-      } catch (e) {
-
-      }
-    },
-    reloadPage() {
-      window.location.reload()
-    },
     handlerNotifications (data) {
       const options = {
         body: `${data.body} - ${format(new Date(), 'HH:mm')}`,
@@ -1056,7 +1007,7 @@ export default {
           console.log('Conteúdo copiado: ', content)
         })
         .catch((error) => {
-        // Ocorreu um erro ao copiar
+          // Ocorreu um erro ao copiar
           console.error('Erro ao copiar o conteúdo: ', error)
         })
     },
@@ -1081,7 +1032,6 @@ export default {
         DeletarMensagem(data)
           .then(res => {
             this.loading = false
-            mensagem.isDeleted = true
           })
           .catch(error => {
             this.loading = false
@@ -1138,7 +1088,6 @@ export default {
     await this.listarWhatsapps()
     await this.consultarTickets()
     await this.listarUsuarios()
-    await this.listarMensagens()
     const { data } = await ListarMensagensRapidas()
     this.mensagensRapidas = data
     if (!('Notification' in window)) {
@@ -1232,11 +1181,4 @@ export default {
 .conversation__more
   margin-top: 0!important
   font-size: 1.4rem
-
-.tab-container
-  overflow-x: auto
-  font-size: 0.75rem
-
-.tab-scroll
-  white-space: nowrap
 </style>

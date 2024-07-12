@@ -1,10 +1,8 @@
 <template>
-  <div v-if="userProfile === 'admin'">
+  <div>
     <q-card
-      bordered
       flat
       class="q-ma-sm"
-      style="border-bottom: 4px solid black"
     >
       <q-card-section>
         <div class="row text-h6">
@@ -14,10 +12,11 @@
           Início: {{ formatDate($route.params.campanha.start) }} - Status: {{ $route.params.campanha.status }}
         </div>
         <q-btn
+          rounded
           class="absolute-top-right q-ma-md"
           icon="mdi-arrow-left"
-          text-color="primary"
           label="Listar Campanhas"
+          color="black"
           @click="$router.push({ name: 'campanhas' })"
         />
       </q-card-section>
@@ -37,24 +36,25 @@
       <template v-slot:top>
         <div class="row col-4 q-table__title items-center ">
           Contatos
-          <q-btn
-            class="q-ml-md"
-            color="primary"
-            icon="refresh"
-            outline
-            @click="listarContatosCampanha"
-          >
-            <q-tooltip>
-              Atualizar Listagem
-            </q-tooltip>
-          </q-btn>
         </div>
         <q-space />
+        <q-btn
+          rounded
+          class="q-ml-md"
+          color="black"
+          icon="refresh"
+          @click="listarContatosCampanha"
+        >
+          <q-tooltip>
+            Atualizar Listagem
+          </q-tooltip>
+        </q-btn>
         <q-btn
           class="q-ml-md"
           color="negative"
           icon="close"
           outline
+          rounded
           label="Limpar Campanha"
           @click="deletarTodosContatosCampanha"
           v-if="$route.params.campanha.status === 'pending' ||
@@ -65,6 +65,7 @@
           color="primary"
           label="Incluir Contatos"
           icon="add"
+          rounded
           v-if="$route.params.campanha.status === 'pending' ||
             $route.params.campanha.status === 'canceled'"
           @click="modalAddContatosCampanha = !modalAddContatosCampanha"
@@ -116,13 +117,14 @@
     >
       <q-card style="min-width: 80vw; width: 80vw">
         <q-card-section class="q-pt-none q-pt-md">
-          <fieldset>
+          <fieldset class="rounded-all">
             <legend class="q-px-sm">Filtros (Data criação do contato)</legend>
             <div class="row q-gutter-md items-end">
               <div class="col-grow">
                 <label>Início</label>
                 <DatePick
                   dense
+                  rounded
                   v-model="pesquisa.startDate"
                 />
               </div>
@@ -130,6 +132,7 @@
                 <label>Final</label>
                 <DatePick
                   dense
+                  rounded
                   v-model="pesquisa.endDate"
                 />
               </div>
@@ -137,6 +140,7 @@
                 <q-select
                   label="Estado (s)"
                   dense
+                  rounded
                   outlined
                   v-model="pesquisa.ddds"
                   multiple
@@ -167,6 +171,7 @@
                   <template v-slot:selected-item="{ opt }">
                     <q-badge
                       dense
+                      rounded
                       color="grey-3"
                       text-color="primary"
                       class="q-ma-xs text-body1"
@@ -181,6 +186,7 @@
                   outlined
                   label="Etiqueta (a)"
                   dense
+                  rounded
                   v-model="pesquisa.tags"
                   multiple
                   :options="etiquetas"
@@ -210,6 +216,7 @@
                   <template v-slot:selected-item="{ opt }">
                     <q-chip
                       dense
+                      rounded
                       color="white"
                       text-color="primary"
                       class="q-ma-xs text-body1"
@@ -228,6 +235,7 @@
               <div class="col-xs-12 col-sm-4 grow text-center">
                 <q-select
                   outlined
+                  rounded
                   label="Carteira"
                   dense
                   v-model="pesquisa.wallets"
@@ -263,6 +271,7 @@
                   style="width: 300px"
                   outlined
                   dense
+                  rounded
                   v-model="pesquisa.searchParam"
                   clearable
                   placeholder="Filtrar Nome ou Telefone"
@@ -275,7 +284,8 @@
               <div class="col-grow text-right">
                 <q-btn
                   class="q-mr-sm"
-                  color="info"
+                  color="primary"
+                  rounded
                   label="Gerar"
                   icon="refresh"
                   @click="listarAddContatos"
@@ -306,14 +316,16 @@
               </div>
               <q-space />
               <q-btn
+                rounded
                 class="q-ml-md"
                 color="negative"
                 label="Cancelar"
                 @click="modalAddContatosCampanha = false"
               />
               <q-btn
+                rounded
                 class="q-ml-md"
-                color="primary"
+                color="positive"
                 icon="save"
                 label="Adicionar"
                 @click="addContatosCampanha"
@@ -363,7 +375,6 @@ export default {
   name: 'ContatosCampanha',
   data () {
     return {
-      userProfile: 'user',
       modalAddContatosCampanha: false,
       etiquetas: [],
       usuarios: [],
@@ -470,13 +481,6 @@ export default {
       return estadosBR.find(e => e.sigla === estadoPorDdd[ddd])?.nome || ''
     },
     async addContatosCampanha () {
-      if (this.selected.length > 300) {
-        this.$q.notify({
-          type: 'negative',
-          message: 'O número máximo de contatos é 300'
-        })
-        return
-      }
       try {
         await AdicionarContatosCampanha(this.selected, this.$route.params.campanhaId)
         this.listarContatosCampanha()
@@ -560,7 +564,6 @@ export default {
     this.listarUsuarios()
   },
   mounted () {
-    this.userProfile = localStorage.getItem('profile')
     const campanhaParams = this.$route.params.campanha
     if (!campanhaParams) {
       this.$router.push({ name: 'campanhas' })
@@ -574,7 +577,7 @@ export default {
 <style lang="sass">
 .my-sticky-dynamic
   /* height or max-height is important */
-  height: 85vh
+  height: 75vh
 
   .q-table__top,
   .q-table__bottom,

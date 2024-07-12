@@ -1,5 +1,5 @@
 <template>
-  <div v-if="userProfile === 'admin'">
+  <div>
     <q-table
       flat
       bordered
@@ -18,6 +18,7 @@
         <q-btn
           color="primary"
           label="Adicionar"
+          rounded
           @click="etiquetaEdicao = {}; modalEtiqueta = true"
         />
       </template>
@@ -76,7 +77,6 @@ export default {
   },
   data () {
     return {
-      userProfile: 'user',
       etiquetaEdicao: {},
       modalEtiqueta: false,
       etiquetas: [],
@@ -158,7 +158,6 @@ export default {
 
   },
   mounted () {
-    this.userProfile = localStorage.getItem('profile')
     this.listarEtiquetas()
   }
 }

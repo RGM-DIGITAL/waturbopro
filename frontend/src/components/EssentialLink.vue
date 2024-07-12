@@ -66,7 +66,8 @@ export default {
 </script>
 <style lang="sass">
 .menu-link-active-item-top
-  border-left: 4px solid rgb(21, 120, 173)
+  border-left: 3px solid rgb(21, 120, 173)
+  border-right: 3px solid rgb(21, 120, 173)
   // border-radius: 20px
   border-top-right-radius: 20px
   border-bottom-right-radius: 20px
