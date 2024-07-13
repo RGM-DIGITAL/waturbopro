@@ -1,23 +1,9 @@
 <template>
-  <div class="text-caption text-center bg-grey-1 q-pa-sm">
-    Versão Sistema:
+  <div class="text-caption text-center q-pa-sm">
+    Versão WhatsFuture:
     <q-badge align="middle"
       color="primary">
-      v{{ cVersion }}
+     <a target="_blank">1.0</a>
     </q-badge>
   </div>
 </template>
-<script>
-import packageEnv from 'src/../package.json'
-export default {
-  name: 'SystemVersion',
-  computed: {
-    cVersion () {
-      return packageEnv.version
-    }
-  }
-}
-</script>
-<style>
-
-</style>

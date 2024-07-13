@@ -46,8 +46,7 @@ module.exports = function (ctx) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       env: {
-        VUE_URL_API: process.env.VUE_URL_API,
-        VUE_FACEBOOK_APP_ID: process.env.VUE_FACEBOOK_APP_ID
+        VUE_URL_API: process.env.VUE_URL_API
       },
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
@@ -126,11 +125,11 @@ module.exports = function (ctx) {
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
-      workboxOptions: {}, // only for GenerateSW
+      workboxOptions: {maximumFileSizeToCacheInBytes: 5000000,}, // only for GenerateSW
       manifest: {
-        name: 'IZING',
-        short_name: 'IZING',
-        description: 'Bot Multi-atendimento para whatsapp',
+        name: 'WhatsFuture',
+        short_name: 'WhatsFuture',
+        description: 'Use todos os superpoderes do WhatsApp',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -194,7 +193,7 @@ module.exports = function (ctx) {
 
       builder: {
         // https://www.electron.build/configuration/configuration
-        appId: 'IZING'
+        appId: 'WhatsFuture'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration

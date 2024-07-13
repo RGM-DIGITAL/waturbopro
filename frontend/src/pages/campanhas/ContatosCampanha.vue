@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="userProfile === 'admin'">
     <q-card
       flat
       class="q-ma-sm"
@@ -375,6 +375,7 @@ export default {
   name: 'ContatosCampanha',
   data () {
     return {
+      userProfile: 'user',
       modalAddContatosCampanha: false,
       etiquetas: [],
       usuarios: [],
@@ -481,6 +482,13 @@ export default {
       return estadosBR.find(e => e.sigla === estadoPorDdd[ddd])?.nome || ''
     },
     async addContatosCampanha () {
+      if (this.selected.length > 300) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'O número máximo de contatos é 300'
+        })
+        return
+      }
       try {
         await AdicionarContatosCampanha(this.selected, this.$route.params.campanhaId)
         this.listarContatosCampanha()
@@ -564,6 +572,7 @@ export default {
     this.listarUsuarios()
   },
   mounted () {
+    this.userProfile = localStorage.getItem('profile')
     const campanhaParams = this.$route.params.campanha
     if (!campanhaParams) {
       this.$router.push({ name: 'campanhas' })
