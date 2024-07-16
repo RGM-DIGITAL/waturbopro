@@ -35,15 +35,15 @@
 
               <q-btn flat color="info" no-caps dense class="q-px-sm" label="Esqueci a senha" @click="modalEsqueciSenha = true" />
             </q-card-section>
-            <!-- <q-card-actions>
-              <q-btn flat color="info" no-caps dense class="q-px-sm" label="Registre-se, agora mesmo!" @click="redirecionarParaCadastro" />
+            <q-card-actions>
+              <!-- <q-btn flat color="info" no-caps dense class="q-px-sm" label="Registre-se, agora mesmo!" @click="redirecionarParaCadastro" /> -->
               <q-btn class="q-mr-sm q-my-lg" style="width: 150px" color="primary" :loading="loading" @click="fazerLogin">
                 Login
                 <span slot="loading">
                   <q-spinner-puff class="on-left" />Logando...
                 </span>
               </q-btn>
-            </q-card-actions> -->
+            </q-card-actions>
 
             <q-inner-loading :showing="loading" />
           </q-card>
