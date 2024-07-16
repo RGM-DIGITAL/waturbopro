@@ -37,7 +37,7 @@
             </q-card-section>
             <q-card-actions>
               <!-- <q-btn flat color="info" no-caps dense class="q-px-sm" label="Registre-se, agora mesmo!" @click="redirecionarParaCadastro" /> -->
-              <q-btn class="q-mr-sm q-my-lg" style="width: 100%" background-color="#17F797" color="#101010" :loading="loading" @click="fazerLogin">
+              <q-btn class="q-mr-sm q-my-lg login-bt" style="width: 100%" background-color="" color="#101010" :loading="loading" @click="fazerLogin">
                 Login
                 <span slot="loading">
                   <q-spinner-puff class="on-left" />Logando...
@@ -193,6 +193,10 @@ export default {
 </script>
 
 <style scoped>
+.login-bt{
+  background-color:#17F797 ;
+  color: #101010;
+}
 #login-app {
   background: none;
 }
@@ -247,8 +251,7 @@ export default {
 }
 
 .card {
-  width: 100%;
-  max-width: 430px;
+  width: 617px;  
   height: 580px;
   padding: 0px;
   border-radius: 20px;
