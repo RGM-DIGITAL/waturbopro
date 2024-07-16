@@ -9,7 +9,7 @@
           <q-ajax-bar position="top" color="primary" size="5px" />
           <q-card bordered class="card q-pa-md shadow-10" style="border-top: 5px solid #3E72AF; background-color: rgba(255,255,255,0.75); border-radius: 20px">
             <q-card-section class="text-primary text-center">
-              <q-img src="/logo.png" spinner-color="white" style="height: 110px; max-width: 290px" class="q-mb-lg q-px-md" />
+              <q-img src="/logo.png" spinner-color="white" style="height: 100%x; " class="q-mb-lg q-px-md" />
               <q-separator spaced />
             </q-card-section>
             <q-card-section class="text-primary">
@@ -37,7 +37,7 @@
             </q-card-section>
             <q-card-actions>
               <!-- <q-btn flat color="info" no-caps dense class="q-px-sm" label="Registre-se, agora mesmo!" @click="redirecionarParaCadastro" /> -->
-              <q-btn class="q-mr-sm q-my-lg" style="width: 150px" color="primary" :loading="loading" @click="fazerLogin">
+              <q-btn class="q-mr-sm q-my-lg" style="width: 100%" background-color="#17F797" color="#101010" :loading="loading" @click="fazerLogin">
                 Login
                 <span slot="loading">
                   <q-spinner-puff class="on-left" />Logando...
