@@ -247,8 +247,7 @@ export default {
 }
 
 .card {
-  width: 100%;
-  max-width: 615px;
+  width: 615px;
   height: 580px;
   padding: 0px;
   border-radius: 20px;
