@@ -271,13 +271,13 @@ const objMenu = [
     caption: 'Mensagens pré-definidas',
     icon: 'mdi-reply-all-outline',
     routeName: 'mensagens-rapidas'
-  },
-  {
-    title: 'Ajuda',
-    caption: 'Ajuda',
-    icon: 'mdi-help',
-    routeName: 'ajuda'
   }
+  // {
+  //   title: 'Ajuda',
+  //   caption: 'Ajuda',
+  //   icon: 'mdi-help',
+  //   routeName: 'ajuda'
+  // }
 ]
 
 const objMenuAdmin = [
@@ -355,12 +355,12 @@ const objMenuAdmin = [
     icon: 'mdi-cog',
     routeName: 'configuracoes'
   },
-  {
-    title: 'Financeiro',
-    caption: 'Financeiro',
-    icon: 'mdi-cash-multiple',
-    routeName: 'financeiro'
-  },
+  // {
+  //   title: 'Financeiro',
+  //   caption: 'Financeiro',
+  //   icon: 'mdi-cash-multiple',
+  //   routeName: 'financeiro'
+  // },
   {
     title: 'Campanha',
     caption: 'Campanhas de envio',
