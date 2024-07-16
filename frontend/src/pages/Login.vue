@@ -37,7 +37,7 @@
             </q-card-section>
             <q-card-actions>
               <!-- <q-btn flat color="info" no-caps dense class="q-px-sm" label="Registre-se, agora mesmo!" @click="redirecionarParaCadastro" /> -->
-              <q-btn class="q-mr-sm q-my-lg login-bt" style="width: 100%" background-color="" color="#101010" :loading="loading" @click="fazerLogin">
+              <q-btn class="q-mr-sm q-my-lg login-bt" style="width: 100%" :loading="loading" @click="fazerLogin">
                 Login
                 <span slot="loading">
                   <q-spinner-puff class="on-left" />Logando...
