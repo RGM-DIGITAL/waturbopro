@@ -128,8 +128,8 @@ module.exports = function (ctx) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: { maximumFileSizeToCacheInBytes: 10000000 }, // only for GenerateSW
       manifest: {
-        name: 'Whazing',
-        short_name: 'Whazing',
+        name: 'WaTurbo',
+        short_name: 'WaTurbo',
         description: 'Bot Multi-atendimento',
         display: 'standalone',
         orientation: 'portrait',
@@ -194,7 +194,7 @@ module.exports = function (ctx) {
 
       builder: {
         // https://www.electron.build/configuration/configuration
-        appId: 'Whazing'
+        appId: 'WaTurbo'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
