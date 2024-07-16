@@ -9,7 +9,7 @@
           <q-ajax-bar position="top" color="primary" size="5px" />
           <q-card bordered class="card q-pa-md shadow-10" style="border-top: 5px solid #3E72AF; background-color: rgba(255,255,255,0.75); border-radius: 20px">
             <q-card-section class="text-primary text-center">
-              <q-img src="/logo.png" spinner-color="white" style="height: 100%x; " class="q-mb-lg q-px-md" />
+              <q-img src="/logo.png" spinner-color="white" style="height: 100%; " class="q-mb-lg q-px-md" />
               <q-separator spaced />
             </q-card-section>
             <q-card-section class="text-primary">
@@ -37,7 +37,7 @@
             </q-card-section>
             <q-card-actions>
               <!-- <q-btn flat color="info" no-caps dense class="q-px-sm" label="Registre-se, agora mesmo!" @click="redirecionarParaCadastro" /> -->
-              <q-btn class="q-mr-sm q-my-lg login-bt" style="width: 100%" :loading="loading" @click="fazerLogin">
+              <q-btn class="q-mr-sm q-my-lg" style="width: 100%" color="primary" :loading="loading" @click="fazerLogin">
                 Login
                 <span slot="loading">
                   <q-spinner-puff class="on-left" />Logando...
@@ -193,10 +193,6 @@ export default {
 </script>
 
 <style scoped>
-.login-bt{
-  background-color:#17F797 ;
-  color: #101010;
-}
 #login-app {
   background: none;
 }
@@ -251,7 +247,8 @@ export default {
 }
 
 .card {
-  width: 617px;  
+  width: 100%;
+  max-width: 430px;
   height: 580px;
   padding: 0px;
   border-radius: 20px;
