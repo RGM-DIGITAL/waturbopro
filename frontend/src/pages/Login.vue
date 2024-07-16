@@ -252,7 +252,16 @@ export default {
   padding: 0px;
   border-radius: 20px;
 }
-
+/* Estilos para dispositivos móveis (telas menores que 768px) */
+@media only screen and (max-width: 768px) {
+  .card {
+  width: 100%;
+  max-width: 430px;
+  height: 580px;
+  padding: 0px;
+  border-radius: 20px;
+}
+}
 .vertical-center {
   display: flex;
   align-items: center;
