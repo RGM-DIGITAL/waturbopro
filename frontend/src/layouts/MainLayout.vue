@@ -12,7 +12,7 @@
           <q-tooltip>Menu</q-tooltip>
         </q-btn>
 
-        <q-btn flat
+        <!-- <q-btn flat
           no-caps
           no-wrap
           dense
@@ -21,7 +21,7 @@
           <q-img src="/logo.png"
             spinner-color="primary"
             style="height: 50px; width: 140px" />
-        </q-btn>
+        </q-btn> -->
         <q-space />
         <div v-if="$q.screen.gt.xs">
         <vencimento />
